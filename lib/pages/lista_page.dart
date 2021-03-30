@@ -1,9 +1,14 @@
+//flutter dart
 import 'dart:async';
 import 'dart:convert';
-import 'package:diseno_login/pages/home_page.dart';
-import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
+import 'package:diseno_login/pages/credito/info_page.dart';
 import 'package:flutter/material.dart';
+//packetes de terceros
 import 'package:http/http.dart' as http;
+//views
+import 'package:diseno_login/pages/home_page.dart';
+//services
+import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
 Future<List<Credito>> fetchCredito() async {
   final prefs = new PreferenciasUsuario();
@@ -107,6 +112,7 @@ class _ListaPageState extends State<ListaPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
@@ -132,125 +138,53 @@ class _ListaPageState extends State<ListaPage> {
                   itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      height: 130,
-                      padding: EdgeInsets.all(12),
-                      margin: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Material(
-                                color: Colors.transparent,
-                                child: Text(
-                                  data[index].nombre,
-                                  style: TextStyle(
-                                    color: Color(0xff64676F),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Regular',
-                                    fontSize: 16,
+                      child: Column(children: [
+                        Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          margin: EdgeInsets.only(
+                              top: 15.0, left: 10.0, right: 10.0),
+                          child: ListTile(
+                            leading: Icon(Icons.people,
+                                color: Colors.lightBlueAccent[400]),
+                            trailing: Icon(Icons.keyboard_arrow_right,
+                                color: Colors.blue),
+                            subtitle: Text(data[index].credito.toString(),
+                                style: TextStyle(
+                                    color: Colors.lightBlueAccent[400],
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w800)),
+                            title: Text(data[index].nombre,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w800)),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InfoPage(
+                                    credito: data[index].credito.toString(),
                                   ),
                                 ),
-                              ),
-                              Material(
-                                color: Colors.transparent,
-                                child: Text(
-                                  data[index].credito.toString(),
-                                  style: TextStyle(
-                                    color: Color(0xff464855),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Regular',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              )
-                            ],
+                              );
+                            },
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 1,
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.grey[300],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xffEEFBFA),
-                                    ),
-                                    child: Icon(
-                                      Icons.thumb_up_off_alt,
-                                      color: Color(0xff67E4D3),
-                                    ),
-                                  ),
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: Text(
-                                      'Gestionar',
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontFamily: 'Regular',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xffFFF3F3),
-                                    ),
-                                    child: Icon(
-                                      Icons.do_disturb_alt_rounded,
-                                      color: Color(0xffFD706B),
-                                      size: 32,
-                                    ),
-                                  ),
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: Text(
-                                      'Descartar',
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontFamily: 'Regular',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+                        )
+                      ]),
                     );
                   },
                 );
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
-              return CircularProgressIndicator();
+              return LinearProgressIndicator(
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation(
+                  (prefs.colorSecundario == false)
+                      ? Colors.blue
+                      : Color.fromRGBO(52, 73, 94, 1.0),
+                ),
+              );
             },
           ),
         ));
