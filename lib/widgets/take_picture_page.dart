@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'dart:io' as Io;
 
 class TakePicturePage extends StatefulWidget {
   final CameraDescription camera;
@@ -19,7 +20,7 @@ class _TakePicturePageState extends State<TakePicturePage> {
   void initState() {
     super.initState();
 
-    _cameraController = CameraController(widget.camera, ResolutionPreset.low);
+    _cameraController = CameraController(widget.camera, ResolutionPreset.high);
 
     _initializeCameraControllerFuture = _cameraController.initialize();
   }
@@ -30,7 +31,6 @@ class _TakePicturePageState extends State<TakePicturePage> {
 
       final path = join((await getApplicationDocumentsDirectory()).path,
           '${DateTime.now()}.png');
-      print(path);
       await _cameraController.takePicture(path);
       Navigator.pop(context, path);
     } catch (e) {
@@ -49,7 +49,7 @@ class _TakePicturePageState extends State<TakePicturePage> {
           } else {
             return Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.lime),
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                 strokeWidth: 3.0,
               ),
             );

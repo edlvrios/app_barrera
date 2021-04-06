@@ -124,6 +124,10 @@ class _ListaPageState extends State<ListaPage> {
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, HomePage.routName),
           ),
+          title: Text(
+            "Creditos En Tu Zona",
+            style: TextStyle(fontSize: 24.0),
+          ),
         ),
         backgroundColor: (prefs.colorSecundario == false)
             ? Colors.blue
@@ -159,6 +163,7 @@ class _ListaPageState extends State<ListaPage> {
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w800)),
                             onTap: () {
+                              prefs.credito = data[index].credito.toString();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

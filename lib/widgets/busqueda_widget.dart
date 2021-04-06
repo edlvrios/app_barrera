@@ -1,7 +1,6 @@
 import 'package:diseno_login/pages/busqueda_page.dart';
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:expansion_tile_card/expansion_tile_card.dart';
 
 class BusquedaWidget extends StatefulWidget {
   BusquedaWidget({Key key}) : super(key: key);
@@ -11,7 +10,6 @@ class BusquedaWidget extends StatefulWidget {
 }
 
 class _BusquedaWidgetState extends State<BusquedaWidget> {
-  final GlobalKey<ExpansionTileCardState> cardCredito = new GlobalKey();
   final creditoController = TextEditingController();
   // ignore: unused_field
   String _credito;

@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:diseno_login/model/user_location.dart';
 import 'package:diseno_login/pages/ajustes_page.dart';
 import 'package:diseno_login/pages/busqueda_page.dart';
+import 'package:diseno_login/pages/credito/info_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/pages/lista_page.dart';
+import 'package:diseno_login/pages/gestion/gestion_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,6 +58,8 @@ class MyApp extends StatelessWidget {
           BusquedaPage.routName: (BuildContext context) => BusquedaPage(),
           AjustesPage.routName: (BuildContext context) => AjustesPage(),
           ListaPage.routName: (BuildContext context) => ListaPage(),
+          InfoPage.routeName: (BuildContext context) => InfoPage(),
+          GestionPage.routName: (BuildContext context) => GestionPage(),
         },
       ),
     );
