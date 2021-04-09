@@ -40,7 +40,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
   }
 
   void _showOptions(BuildContext context) {
-    showModalBottomSheet(
+    showMaterialModalBottomSheet(
       context: context,
       builder: (context) {
         return Container(

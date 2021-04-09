@@ -22,6 +22,7 @@ class _PosicionWidgetState extends State<PosicionWidget> {
     longitude = prefs.longitude;
   }
 
+  final estiloTitulo = TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold);
   @override
   Widget build(BuildContext context) {
     final userLocation = Provider.of<UserLocation>(context);
@@ -37,7 +38,31 @@ class _PosicionWidgetState extends State<PosicionWidget> {
               valueColor: AlwaysStoppedAnimation<Color>(Colors.lime),
               strokeWidth: 5.0,
             )
-          : Text(''),
+          : SafeArea(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.only(
+                    left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Tu Pocision', style: estiloTitulo),
+                        ],
+                      ),
+                    ),
+                    Icon(Icons.room, color: Colors.indigoAccent, size: 30.0),
+                    Text('${prefs.latitude},${prefs.longitude}',
+                        style:
+                            TextStyle(fontSize: 15.0, color: Colors.grey[700]))
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

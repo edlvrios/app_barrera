@@ -5,10 +5,12 @@ import 'dart:typed_data';
 
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
+import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:diseno_login/widgets/take_picture_page.dart';
 
 import 'package:provider/provider.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:camera/camera.dart';
 import 'package:slimy_card/slimy_card.dart';
 
@@ -46,25 +48,12 @@ class _GestionPageState extends State<GestionPage> {
     });
   }
 
+  final estiloTitulo = TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: (prefs.colorSecundario == false)
-            ? Colors.blue
-            : Color.fromRGBO(52, 73, 94, 1.0),
-        leading: IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () =>
-              Navigator.pushReplacementNamed(context, HomePage.routName),
-        ),
-        title: Text(
-          "Gestion de ${prefs.credito}",
-          style: TextStyle(fontSize: 24.0),
-        ),
-      ),
       backgroundColor: (prefs.colorSecundario == false)
           ? Colors.blue
           : Color.fromRGBO(52, 73, 94, 1.0),
@@ -72,35 +61,68 @@ class _GestionPageState extends State<GestionPage> {
         visible: (_path == null) ? true : false,
         child: FloatingActionButton(
           onPressed: () {
-            //Navigator.pop(context);
             _showCamera();
           },
           child: const Icon(Icons.add_a_photo),
           backgroundColor: Colors.indigoAccent,
         ),
       ),
-      body: Container(
-          child: (_path == null)
-              ? Text('Hola')
-              : ListView(
-                  children: [
-                    SlimyCard(
-                      bottomCardWidget: Text('Prueba'),
-                      color: Colors.grey[500],
-                      width: size.width * 0.9,
-                      topCardHeight: 150,
-                      bottomCardHeight: 500,
-                      borderRadius: 10,
-                      topCardWidget: Container(
-                        width: size.width,
-                        child: Image.file(
-                          imageFinal,
-                        ),
-                      ),
-                      slimeEnabled: true,
-                    ),
-                  ],
-                )),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _crearImagen(context),
+            _crearTitulo(),
+            SizedBox(height: 0.5),
+            PosicionWidget(),
+          ],
+        ),
+      ),
     );
+  }
+
+  Widget _crearImagen(BuildContext context) {
+    return (_path == null)
+        ? Text('')
+        : Container(
+            width: double.infinity,
+            child: GestureDetector(
+              onTap: () => Navigator.pushNamed(context, 'scroll'),
+              child: Image(
+                image: FileImage(imageFinal),
+                height: 300.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+  }
+
+  Widget _crearTitulo() {
+    return (_path == null)
+        ? Text('')
+        : SafeArea(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              padding: EdgeInsets.only(
+                  left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Gestion', style: estiloTitulo),
+                      ],
+                    ),
+                  ),
+                  Icon(Icons.account_circle,
+                      color: Colors.indigoAccent, size: 30.0),
+                  Text('${prefs.credito}',
+                      style: TextStyle(fontSize: 15.0, color: Colors.grey[700]))
+                ],
+              ),
+            ),
+          );
   }
 }
