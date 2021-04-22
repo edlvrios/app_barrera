@@ -86,11 +86,35 @@ class PreferenciasUsuario {
     _prefs.setString('password', value);
   }
 
+  get vivienda {
+    return _prefs.getString('vivienda') ?? '';
+  }
+
+  set vivienda(String value) {
+    _prefs.setString('vivienda', value);
+  }
+
   get token {
     return _prefs.getString('token') ?? 'sin Token';
   }
 
   set token(String value) {
     _prefs.setString('token', value);
+  }
+
+  get foto {
+    return _prefs.getString('foto') ?? '';
+  }
+
+  set foto(String value) {
+    _prefs.setString('foto', value);
+  }
+
+  get rutaFoto {
+    return _prefs.getString('rutaFoto') ?? '';
+  }
+
+  set rutaFoto(String value) {
+    _prefs.setString('rutaFoto', value);
   }
 }

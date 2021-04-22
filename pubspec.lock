@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.4"
+  direct_select:
+    dependency: "direct main"
+    description:
+      name: direct_select
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   dropdown_search:
     dependency: "direct main"
     description:
@@ -99,32 +106,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.1"
-  flare_dart:
-    dependency: transitive
-    description:
-      name: flare_dart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.3.4"
-  flare_flutter:
-    dependency: transitive
-    description:
-      name: flare_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.6"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.11"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -149,20 +135,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
-  image_picker:
-    dependency: "direct main"
-    description:
-      name: image_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.7+22"
-  image_picker_platform_interface:
-    dependency: transitive
-    description:
-      name: image_picker_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.6"
   intl:
     dependency: transitive
     description:
@@ -303,13 +275,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.3"
-  random_string:
-    dependency: "direct main"
-    description:
-      name: random_string
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   scoped_model:
     dependency: "direct main"
     description:
@@ -364,20 +329,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sliding_card:
-    dependency: "direct main"
-    description:
-      name: sliding_card
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
-  slimy_card:
-    dependency: "direct main"
-    description:
-      name: slimy_card
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   source_span:
     dependency: transitive
     description:

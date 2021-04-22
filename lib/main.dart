@@ -4,6 +4,7 @@ import 'package:diseno_login/model/user_location.dart';
 import 'package:diseno_login/pages/ajustes_page.dart';
 import 'package:diseno_login/pages/busqueda_page.dart';
 import 'package:diseno_login/pages/credito/info_page.dart';
+import 'package:diseno_login/pages/foto/foto_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/pages/lista_page.dart';
 import 'package:diseno_login/pages/gestion/gestion_page.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
           AjustesPage.routName: (BuildContext context) => AjustesPage(),
           ListaPage.routName: (BuildContext context) => ListaPage(),
           InfoPage.routeName: (BuildContext context) => InfoPage(),
+          CamaraPage.routName: (BuildContext context) => CamaraPage(),
           GestionPage.routName: (BuildContext context) => GestionPage(),
         },
       ),

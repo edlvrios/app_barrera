@@ -1,22 +1,17 @@
-import 'dart:io' as Io;
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
+import 'package:diseno_login/widgets/dropdown/lista_vivienda_widget.dart';
 import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:diseno_login/widgets/take_picture_page.dart';
 
-import 'package:provider/provider.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:camera/camera.dart';
-import 'package:slimy_card/slimy_card.dart';
+void main() => runApp(GestionPage());
 
 class GestionPage extends StatefulWidget {
   static final String routName = 'gestion';
-  GestionPage({Key key}) : super(key: key);
+  final String vivienda;
+  GestionPage({this.vivienda, Key key}) : super(key: key);
 
   @override
   _GestionPageState createState() => _GestionPageState();
@@ -25,26 +20,19 @@ class GestionPage extends StatefulWidget {
 class _GestionPageState extends State<GestionPage> {
   final prefs = new PreferenciasUsuario();
   // ignore: avoid_init_to_null
-  String _path = null;
-  String base64Image = null;
   File imageFinal;
-  void _showCamera() async {
-    final cameras = await availableCameras();
-    final camera = cameras.first;
-    final result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TakePicturePage(camera: camera)));
-    File imagenFile = new File(result);
-    Uint8List imagenInBytes = imagenFile.readAsBytesSync();
-    String base = base64Encode(imagenInBytes);
-    final decodedBytes = base64Decode(base);
-    final imageConvert = File(result);
-    imageConvert.writeAsBytesSync(decodedBytes);
+  void initState() {
+    super.initState();
+    _convertbasetofile();
+  }
+
+  void _convertbasetofile() {
+    print(prefs.rutaFoto);
+    final decodeBytes = base64Decode(prefs.foto);
+    final file = File(prefs.rutaFoto);
+    file.writeAsBytesSync(decodeBytes);
     setState(() {
-      _path = result;
-      base64Image = base;
-      imageFinal = imageConvert;
+      imageFinal = file;
     });
   }
 
@@ -52,21 +40,10 @@ class _GestionPageState extends State<GestionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: (prefs.colorSecundario == false)
           ? Colors.blue
           : Color.fromRGBO(52, 73, 94, 1.0),
-      floatingActionButton: Visibility(
-        visible: (_path == null) ? true : false,
-        child: FloatingActionButton(
-          onPressed: () {
-            _showCamera();
-          },
-          child: const Icon(Icons.add_a_photo),
-          backgroundColor: Colors.indigoAccent,
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -74,6 +51,8 @@ class _GestionPageState extends State<GestionPage> {
             _crearTitulo(),
             SizedBox(height: 0.5),
             PosicionWidget(),
+            SizedBox(height: 0.5),
+            _listaVivienda()
           ],
         ),
       ),
@@ -81,7 +60,7 @@ class _GestionPageState extends State<GestionPage> {
   }
 
   Widget _crearImagen(BuildContext context) {
-    return (_path == null)
+    return (prefs.foto == '')
         ? Text('')
         : Container(
             width: double.infinity,
@@ -96,8 +75,39 @@ class _GestionPageState extends State<GestionPage> {
           );
   }
 
+  Widget _listaVivienda() {
+    return Container(
+      child: Column(children: [
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          child: ListTile(
+            leading: Icon(Icons.people, color: Colors.lightBlueAccent[400]),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+            title: Text('Tipo de Vivienda'),
+            subtitle: (widget.vivienda == null)
+                ? Text('Selecciona el tipo de Vivienda')
+                : Text("${widget.vivienda}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w800)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListaVivienda(),
+                ),
+              );
+            },
+          ),
+        )
+      ]),
+    );
+  }
+
   Widget _crearTitulo() {
-    return (_path == null)
+    return (prefs.foto == '')
         ? Text('')
         : SafeArea(
             child: Container(

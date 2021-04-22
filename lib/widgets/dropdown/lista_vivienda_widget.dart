@@ -1,114 +1,61 @@
-//flutter dart
-import 'dart:async';
-import 'dart:convert';
-import 'package:diseno_login/pages/credito/info_page.dart';
+import 'package:diseno_login/pages/gestion/gestion_page.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:async';
 //packetes de terceros
 import 'package:http/http.dart' as http;
-//views
-import 'package:diseno_login/pages/home_page.dart';
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
-// ignore: missing_return
-Future<List<Credito>> fetchCredito() async {
+Future<List<Vivienda>> fetchVivienda() async {
   final prefs = new PreferenciasUsuario();
-  final url = 'http://187.162.64.236:9090/api/auth/credito/zona/${prefs.zona}';
+  final url = 'http://187.162.64.236:9090/api/auth/lista/vivienda';
   final response = await http.get(url, headers: {
     'Accept': 'application/json',
     'X-Request-With': 'XMLHhttpRequest',
     'Authorization': 'Bearer ${prefs.token}'
   });
-  if (response.statusCode == 200) {
+  if (response.statusCode == 201) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Credito.fromJson(data)).toList();
+    return jsonResponse.map((data) => new Vivienda.fromJson(data)).toList();
   }
 }
 
-class Credito {
-  final int credito;
+class Vivienda {
+  final int id;
   final String nombre;
-  final String calle;
-  final String colonia;
-  final String delegacion;
-  final String municipio;
-  final String cp;
-  final String saldoActual;
-  final String regimenActual;
-  final String omisos;
-  final String mensualidadSegmento;
-  final String importeRegularizar;
-  final String seguroActual;
-  final String seguroOmisos;
-  final String mesesDisponibles;
-  final String stm;
-  final String bcn;
-  final String dcp;
-  final String fpp1;
-  final String fpp2;
-  final String fpp3;
-  final String fpp4;
-  final String fpp5;
-  final String fpp6;
-  final String fpp7;
-  final String fpp8;
-  final String fpp9;
+  final String data_token;
 
-  Credito({
-    this.credito,
+  Vivienda({
+    this.id,
     this.nombre,
-    this.calle,
-    this.colonia,
-    this.delegacion,
-    this.municipio,
-    this.cp,
-    this.saldoActual,
-    this.regimenActual,
-    this.omisos,
-    this.mensualidadSegmento,
-    this.importeRegularizar,
-    this.seguroActual,
-    this.seguroOmisos,
-    this.mesesDisponibles,
-    this.stm,
-    this.bcn,
-    this.dcp,
-    this.fpp1,
-    this.fpp2,
-    this.fpp3,
-    this.fpp4,
-    this.fpp5,
-    this.fpp6,
-    this.fpp7,
-    this.fpp8,
-    this.fpp9,
+    this.data_token,
   });
 
-  factory Credito.fromJson(Map<String, dynamic> json) {
-    return Credito(
-      credito: json['credito'],
+  factory Vivienda.fromJson(Map<String, dynamic> json) {
+    return Vivienda(
+      id: json['id'],
       nombre: json['nombre'],
+      data_token: json['data_token'],
     );
   }
 }
 
-void main() => runApp(ListaPage());
+void main() => runApp(ListaVivienda());
 
-class ListaPage extends StatefulWidget {
-  static final String routName = 'listaCreditos';
-  ListaPage({Key key}) : super(key: key);
+class ListaVivienda extends StatefulWidget {
+  ListaVivienda({Key key}) : super(key: key);
 
   @override
-  _ListaPageState createState() => _ListaPageState();
+  _ListaViviendaState createState() => _ListaViviendaState();
 }
 
-class _ListaPageState extends State<ListaPage> {
+class _ListaViviendaState extends State<ListaVivienda> {
   final prefs = new PreferenciasUsuario();
-  Future<List<Credito>> futureCredito;
-  @override
+  Future<List<Vivienda>> futureVivienda;
   void initState() {
     super.initState();
-    futureCredito = fetchCredito();
+    futureVivienda = fetchVivienda();
   }
 
   @override
@@ -120,12 +67,10 @@ class _ListaPageState extends State<ListaPage> {
               ? Colors.blue
               : Color.fromRGBO(52, 73, 94, 1.0),
           leading: IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomePage.routName),
-          ),
+              icon: new Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => print('')),
           title: Text(
-            "Creditos En Tu Zona",
+            "Tipo de Vivienda",
             style: TextStyle(fontSize: 24.0),
           ),
         ),
@@ -133,11 +78,11 @@ class _ListaPageState extends State<ListaPage> {
             ? Colors.blue
             : Color.fromRGBO(52, 73, 94, 1.0),
         body: Center(
-          child: FutureBuilder<List<Credito>>(
-            future: futureCredito,
+          child: FutureBuilder<List<Vivienda>>(
+            future: futureVivienda,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<Credito> data = snapshot.data;
+                List<Vivienda> data = snapshot.data;
                 return ListView.builder(
                   itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -152,23 +97,18 @@ class _ListaPageState extends State<ListaPage> {
                                 color: Colors.lightBlueAccent[400]),
                             trailing: Icon(Icons.keyboard_arrow_right,
                                 color: Colors.blue),
-                            subtitle: Text(data[index].credito.toString(),
-                                style: TextStyle(
-                                    color: Colors.lightBlueAccent[400],
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w800)),
                             title: Text(data[index].nombre,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w800)),
                             onTap: () {
-                              prefs.credito = data[index].credito.toString();
+                              prefs.vivienda = data[index].nombre.toString();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => InfoPage(
-                                    credito: data[index].credito.toString(),
+                                  builder: (context) => GestionPage(
+                                    vivienda: data[index].nombre.toString(),
                                   ),
                                 ),
                               );

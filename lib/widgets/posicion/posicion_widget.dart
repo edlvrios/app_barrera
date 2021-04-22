@@ -35,7 +35,7 @@ class _PosicionWidgetState extends State<PosicionWidget> {
     return Container(
       child: userLocation == null
           ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.lime),
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
               strokeWidth: 5.0,
             )
           : SafeArea(

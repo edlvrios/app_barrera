@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:diseno_login/pages/foto/foto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:diseno_login/pages/lista_page.dart';
-
-import 'package:diseno_login/pages/gestion/gestion_page.dart';
 //packetes de terceros
 import 'package:http/http.dart' as http;
 
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
+// ignore: missing_return
 Future<List<InfoCredito>> fetchInfoCredito() async {
   final prefs = new PreferenciasUsuario();
   print(prefs.credito);
@@ -161,7 +161,7 @@ class _InfoPageState extends State<InfoPage> {
           : Color.fromRGBO(52, 73, 94, 1.0),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, GestionPage.routName);
+          Navigator.pushReplacementNamed(context, CamaraPage.routName);
         },
         child: const Icon(Icons.how_to_vote),
         backgroundColor: Colors.orange,
@@ -663,7 +663,7 @@ class _InfoPageState extends State<InfoPage> {
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            data[index].bcn,
+                            data[index].fpp1,
                             style: TextStyle(
                                 color: (int.parse(data[index].fpp1) == 0)
                                     ? Colors.red
@@ -697,7 +697,7 @@ class _InfoPageState extends State<InfoPage> {
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            data[index].bcn,
+                            data[index].fpp2,
                             style: TextStyle(
                                 color: (int.parse(data[index].fpp2) == 0)
                                     ? Colors.red
@@ -731,7 +731,7 @@ class _InfoPageState extends State<InfoPage> {
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            data[index].bcn,
+                            data[index].fpp3,
                             style: TextStyle(
                                 color: (int.parse(data[index].fpp3) == 0)
                                     ? Colors.red
@@ -765,7 +765,7 @@ class _InfoPageState extends State<InfoPage> {
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            data[index].bcn,
+                            data[index].fpp4,
                             style: TextStyle(
                                 color: (int.parse(data[index].fpp4) == 0)
                                     ? Colors.red
