@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
+import 'package:diseno_login/widgets/dropdown/lista_atiende_widget.dart';
+import 'package:diseno_login/widgets/dropdown/lista_postura_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_vivienda_widget.dart';
 import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,10 @@ void main() => runApp(GestionPage());
 class GestionPage extends StatefulWidget {
   static final String routName = 'gestion';
   final String vivienda;
-  GestionPage({this.vivienda, Key key}) : super(key: key);
+  final String atiende;
+  final String postura;
+  GestionPage({this.vivienda, this.atiende, this.postura, Key key})
+      : super(key: key);
 
   @override
   _GestionPageState createState() => _GestionPageState();
@@ -49,10 +54,14 @@ class _GestionPageState extends State<GestionPage> {
           children: [
             _crearImagen(context),
             _crearTitulo(),
-            SizedBox(height: 0.5),
+            SizedBox(height: 0.0),
             PosicionWidget(),
             SizedBox(height: 0.5),
-            _listaVivienda()
+            _listaVivienda(),
+            SizedBox(height: 0.5),
+            _listaAtiende(),
+            SizedBox(height: 0.5),
+            _listaPostura(),
           ],
         ),
       ),
@@ -82,12 +91,16 @@ class _GestionPageState extends State<GestionPage> {
           decoration: BoxDecoration(color: Colors.white),
           margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
           child: ListTile(
-            leading: Icon(Icons.people, color: Colors.lightBlueAccent[400]),
+            leading: Icon(
+              Icons.apartment,
+              color: Colors.lime,
+              size: 45.0,
+            ),
             trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
             title: Text('Tipo de Vivienda'),
-            subtitle: (widget.vivienda == null)
+            subtitle: (prefs.vivienda == '')
                 ? Text('Selecciona el tipo de Vivienda')
-                : Text("${widget.vivienda}",
+                : Text("${prefs.vivienda}",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,
@@ -97,6 +110,77 @@ class _GestionPageState extends State<GestionPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ListaVivienda(),
+                ),
+              );
+            },
+          ),
+        )
+      ]),
+    );
+  }
+
+  Widget _listaAtiende() {
+    return Container(
+      child: Column(children: [
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          child: ListTile(
+            leading: Icon(
+              Icons.people,
+              color: Colors.lime,
+              size: 45.0,
+            ),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+            title: Text('Quien de Atiende'),
+            subtitle: (prefs.vivienda == '')
+                ? Text('Selecciona Quien Atiende')
+                : Text("${prefs.atiende}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w800)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListaAtiende(vivienda: widget.vivienda),
+                ),
+              );
+            },
+          ),
+        )
+      ]),
+    );
+  }
+
+  Widget _listaPostura() {
+    return Container(
+      child: Column(children: [
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          child: ListTile(
+            leading: Icon(
+              Icons.people,
+              color: Colors.lime,
+              size: 45.0,
+            ),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+            title: Text('Quien Postura Tiene'),
+            subtitle: (prefs.vivienda == '')
+                ? Text('Selecciona Que Postura Tiene')
+                : Text("${prefs.postura}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w800)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListaPostura(
+                      vivienda: widget.vivienda, atiende: widget.atiende),
                 ),
               );
             },
@@ -126,8 +210,7 @@ class _GestionPageState extends State<GestionPage> {
                       ],
                     ),
                   ),
-                  Icon(Icons.account_circle,
-                      color: Colors.indigoAccent, size: 30.0),
+                  Icon(Icons.account_circle, color: Colors.lime, size: 45.0),
                   Text('${prefs.credito}',
                       style: TextStyle(fontSize: 15.0, color: Colors.grey[700]))
                 ],

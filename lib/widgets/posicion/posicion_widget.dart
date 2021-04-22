@@ -22,7 +22,7 @@ class _PosicionWidgetState extends State<PosicionWidget> {
     longitude = prefs.longitude;
   }
 
-  final estiloTitulo = TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold);
+  final estiloTitulo = TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
   @override
   Widget build(BuildContext context) {
     final userLocation = Provider.of<UserLocation>(context);
@@ -55,8 +55,8 @@ class _PosicionWidgetState extends State<PosicionWidget> {
                         ],
                       ),
                     ),
-                    Icon(Icons.room, color: Colors.indigoAccent, size: 30.0),
-                    Text('${prefs.latitude},${prefs.longitude}',
+                    Icon(Icons.room, color: Colors.lime, size: 45.0),
+                    Text('${prefs.latitude}',
                         style:
                             TextStyle(fontSize: 15.0, color: Colors.grey[700]))
                   ],

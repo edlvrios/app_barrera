@@ -94,6 +94,22 @@ class PreferenciasUsuario {
     _prefs.setString('vivienda', value);
   }
 
+  get atiende {
+    return _prefs.getString('atiende') ?? '';
+  }
+
+  set atiende(String value) {
+    _prefs.setString('atiende', value);
+  }
+
+  get postura {
+    return _prefs.getString('postura') ?? '';
+  }
+
+  set postura(String value) {
+    _prefs.setString('postura', value);
+  }
+
   get token {
     return _prefs.getString('token') ?? 'sin Token';
   }
