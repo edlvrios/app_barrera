@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
+import 'package:diseno_login/widgets/dropdown/lista_accion_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_atiende_widget.dart';
+import 'package:diseno_login/widgets/dropdown/lista_conclucion_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_postura_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_vivienda_widget.dart';
 import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
@@ -15,7 +17,15 @@ class GestionPage extends StatefulWidget {
   final String vivienda;
   final String atiende;
   final String postura;
-  GestionPage({this.vivienda, this.atiende, this.postura, Key key})
+  final String conclucion;
+  final String accion;
+  GestionPage(
+      {this.vivienda,
+      this.atiende,
+      this.postura,
+      this.conclucion,
+      this.accion,
+      Key key})
       : super(key: key);
 
   @override
@@ -49,6 +59,17 @@ class _GestionPageState extends State<GestionPage> {
       backgroundColor: (prefs.colorSecundario == false)
           ? Colors.blue
           : Color.fromRGBO(52, 73, 94, 1.0),
+      floatingActionButton: (prefs.vivienda != '' &&
+              prefs.atiende != '' &&
+              prefs.postura != '' &&
+              prefs.conclucion != '' &&
+              prefs.accion != '')
+          ? FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.save),
+              backgroundColor: Colors.orange,
+            )
+          : Text(''),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -62,6 +83,10 @@ class _GestionPageState extends State<GestionPage> {
             _listaAtiende(),
             SizedBox(height: 0.5),
             _listaPostura(),
+            SizedBox(height: 0.5),
+            _listaConclucion(),
+            SizedBox(height: 0.5),
+            _listaAccion()
           ],
         ),
       ),
@@ -93,10 +118,11 @@ class _GestionPageState extends State<GestionPage> {
           child: ListTile(
             leading: Icon(
               Icons.apartment,
-              color: Colors.lime,
+              color: Colors.amber[800],
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+            trailing:
+                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
             title: Text('Tipo de Vivienda'),
             subtitle: (prefs.vivienda == '')
                 ? Text('Selecciona el tipo de Vivienda')
@@ -127,13 +153,14 @@ class _GestionPageState extends State<GestionPage> {
           margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
           child: ListTile(
             leading: Icon(
-              Icons.people,
-              color: Colors.lime,
+              Icons.record_voice_over,
+              color: Colors.amber[800],
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+            trailing:
+                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
             title: Text('Quien de Atiende'),
-            subtitle: (prefs.vivienda == '')
+            subtitle: (prefs.atiende == '')
                 ? Text('Selecciona Quien Atiende')
                 : Text("${prefs.atiende}",
                     style: TextStyle(
@@ -162,13 +189,14 @@ class _GestionPageState extends State<GestionPage> {
           margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
           child: ListTile(
             leading: Icon(
-              Icons.people,
-              color: Colors.lime,
+              Icons.psychology,
+              color: Colors.amber[800],
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+            trailing:
+                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
             title: Text('Quien Postura Tiene'),
-            subtitle: (prefs.vivienda == '')
+            subtitle: (prefs.postura == '')
                 ? Text('Selecciona Que Postura Tiene')
                 : Text("${prefs.postura}",
                     style: TextStyle(
@@ -181,6 +209,83 @@ class _GestionPageState extends State<GestionPage> {
                 MaterialPageRoute(
                   builder: (context) => ListaPostura(
                       vivienda: widget.vivienda, atiende: widget.atiende),
+                ),
+              );
+            },
+          ),
+        )
+      ]),
+    );
+  }
+
+  Widget _listaConclucion() {
+    return Container(
+      child: Column(children: [
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          child: ListTile(
+            leading: Icon(
+              Icons.emoji_people,
+              color: Colors.amber[800],
+              size: 45.0,
+            ),
+            trailing:
+                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
+            title: Text('Quien Conclucion Obtuvo'),
+            subtitle: (prefs.conclucion == '')
+                ? Text('Selecciona Que Conclucion Obtuvo')
+                : Text("${prefs.conclucion}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w800)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListaConclucion(
+                      vivienda: widget.vivienda, postura: widget.postura),
+                ),
+              );
+            },
+          ),
+        )
+      ]),
+    );
+  }
+
+  Widget _listaAccion() {
+    return Container(
+      child: Column(children: [
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          child: ListTile(
+            leading: Icon(
+              Icons.check_circle_outline,
+              color: Colors.amber[800],
+              size: 45.0,
+            ),
+            trailing:
+                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
+            title: Text('Quien Accion Obtuvo'),
+            subtitle: (prefs.conclucion == '')
+                ? Text('Selecciona Que Accion Obtuvo')
+                : Text("${prefs.accion}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w800)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListaAccion(
+                    vivienda: widget.vivienda,
+                    postura: widget.postura,
+                    conclucion: widget.conclucion,
+                  ),
                 ),
               );
             },
@@ -210,7 +315,8 @@ class _GestionPageState extends State<GestionPage> {
                       ],
                     ),
                   ),
-                  Icon(Icons.account_circle, color: Colors.lime, size: 45.0),
+                  Icon(Icons.account_circle,
+                      color: Colors.amber[800], size: 45.0),
                   Text('${prefs.credito}',
                       style: TextStyle(fontSize: 15.0, color: Colors.grey[700]))
                 ],

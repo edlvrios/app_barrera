@@ -75,7 +75,7 @@ class _ListaAtiendeState extends State<ListaAtiende> {
               icon: new Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => print('')),
           title: Text(
-            "Tipo de Vivienda",
+            "Quien Atiende ",
             style: TextStyle(fontSize: 24.0),
           ),
         ),

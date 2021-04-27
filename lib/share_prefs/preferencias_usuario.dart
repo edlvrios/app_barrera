@@ -110,6 +110,22 @@ class PreferenciasUsuario {
     _prefs.setString('postura', value);
   }
 
+  get conclucion {
+    return _prefs.getString('conclucion') ?? '';
+  }
+
+  set conclucion(String value) {
+    _prefs.setString('conclucion', value);
+  }
+
+  get accion {
+    return _prefs.getString('accion') ?? '';
+  }
+
+  set accion(String value) {
+    _prefs.setString('accion', value);
+  }
+
   get token {
     return _prefs.getString('token') ?? 'sin Token';
   }

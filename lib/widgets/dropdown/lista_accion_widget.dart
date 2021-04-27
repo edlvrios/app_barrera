@@ -7,10 +7,11 @@ import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
-Future<List<Postura>> fetchAtiende() async {
+Future<List<Accion>> fetchAccion() async {
   final prefs = new PreferenciasUsuario();
-  final url =
-      'http://187.162.64.236:9090/api/auth/lista/postura?vivienda=${prefs.vivienda}&atiende=${prefs.atiende}';
+  final server = 'http://187.162.64.236:9090/api/auth/lista/';
+  final url = server +
+      'conclucion?vivienda=${prefs.vivienda}&postura=${prefs.postura}&conclucion=${prefs.conclucion}';
   final response = await http.get(url, headers: {
     'Accept': 'application/json',
     'X-Request-With': 'XMLHhttpRequest',
@@ -18,47 +19,55 @@ Future<List<Postura>> fetchAtiende() async {
   });
   if (response.statusCode == 201) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Postura.fromJson(data)).toList();
+    return jsonResponse.map((data) => new Accion.fromJson(data)).toList();
   }
 }
 
-class Postura {
+class Accion {
   final int id;
   final String nombre;
+  final String conclucion;
+  final String postura;
   final String vivienda;
   final String data_token;
 
-  Postura({
+  Accion({
     this.id,
     this.nombre,
+    this.conclucion,
+    this.postura,
     this.vivienda,
     this.data_token,
   });
 
-  factory Postura.fromJson(Map<String, dynamic> json) {
-    return Postura(
+  factory Accion.fromJson(Map<String, dynamic> json) {
+    return Accion(
         id: json['id'],
         nombre: json['nombre'],
+        conclucion: json['conclucion'],
+        postura: json['postura'],
         vivienda: json['vivienda'],
         data_token: json['data_token']);
   }
 }
 
-class ListaPostura extends StatefulWidget {
+class ListaAccion extends StatefulWidget {
   final String vivienda;
-  final String atiende;
-  ListaPostura({this.vivienda, this.atiende, Key key}) : super(key: key);
+  final String postura;
+  final String conclucion;
+  ListaAccion({this.vivienda, this.postura, this.conclucion, Key key})
+      : super(key: key);
 
   @override
-  _ListaPosturaState createState() => _ListaPosturaState();
+  _ListaAccionState createState() => _ListaAccionState();
 }
 
-class _ListaPosturaState extends State<ListaPostura> {
+class _ListaAccionState extends State<ListaAccion> {
   final prefs = new PreferenciasUsuario();
-  Future<List<Postura>> futurePostura;
+  Future<List<Accion>> futureAccion;
   void initState() {
     super.initState();
-    futurePostura = fetchAtiende();
+    futureAccion = fetchAccion();
   }
 
   @override
@@ -73,7 +82,7 @@ class _ListaPosturaState extends State<ListaPostura> {
             icon: new Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => print('')),
         title: Text(
-          "Que Postura Tiene",
+          "Que Accion Tendra",
           style: TextStyle(fontSize: 24.0),
         ),
       ),
@@ -81,11 +90,11 @@ class _ListaPosturaState extends State<ListaPostura> {
           ? Colors.blue
           : Color.fromRGBO(52, 73, 94, 1.0),
       body: Center(
-        child: FutureBuilder<List<Postura>>(
-          future: futurePostura,
+        child: FutureBuilder<List<Accion>>(
+          future: futureAccion,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<Postura> data = snapshot.data;
+              List<Accion> data = snapshot.data;
               return ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -106,12 +115,12 @@ class _ListaPosturaState extends State<ListaPostura> {
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w800)),
                           onTap: () {
-                            prefs.postura = data[index].nombre.toString();
+                            prefs.accion = data[index].nombre.toString();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => GestionPage(
-                                  postura: data[index].nombre.toString(),
+                                  accion: data[index].nombre.toString(),
                                 ),
                               ),
                             );

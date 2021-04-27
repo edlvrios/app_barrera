@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
-Future<List<Postura>> fetchAtiende() async {
+Future<List<Conclucion>> fetchConclucion() async {
   final prefs = new PreferenciasUsuario();
   final url =
-      'http://187.162.64.236:9090/api/auth/lista/postura?vivienda=${prefs.vivienda}&atiende=${prefs.atiende}';
+      'http://187.162.64.236:9090/api/auth/lista/conclucion?vivienda=${prefs.vivienda}&postura=${prefs.postura}';
   final response = await http.get(url, headers: {
     'Accept': 'application/json',
     'X-Request-With': 'XMLHhttpRequest',
@@ -18,47 +18,50 @@ Future<List<Postura>> fetchAtiende() async {
   });
   if (response.statusCode == 201) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Postura.fromJson(data)).toList();
+    return jsonResponse.map((data) => new Conclucion.fromJson(data)).toList();
   }
 }
 
-class Postura {
+class Conclucion {
   final int id;
   final String nombre;
+  final String postura;
   final String vivienda;
   final String data_token;
 
-  Postura({
+  Conclucion({
     this.id,
     this.nombre,
+    this.postura,
     this.vivienda,
     this.data_token,
   });
 
-  factory Postura.fromJson(Map<String, dynamic> json) {
-    return Postura(
+  factory Conclucion.fromJson(Map<String, dynamic> json) {
+    return Conclucion(
         id: json['id'],
         nombre: json['nombre'],
+        postura: json['postura'],
         vivienda: json['vivienda'],
         data_token: json['data_token']);
   }
 }
 
-class ListaPostura extends StatefulWidget {
+class ListaConclucion extends StatefulWidget {
   final String vivienda;
-  final String atiende;
-  ListaPostura({this.vivienda, this.atiende, Key key}) : super(key: key);
+  final String postura;
+  ListaConclucion({this.vivienda, this.postura, Key key}) : super(key: key);
 
   @override
-  _ListaPosturaState createState() => _ListaPosturaState();
+  _ListaConclucionState createState() => _ListaConclucionState();
 }
 
-class _ListaPosturaState extends State<ListaPostura> {
+class _ListaConclucionState extends State<ListaConclucion> {
   final prefs = new PreferenciasUsuario();
-  Future<List<Postura>> futurePostura;
+  Future<List<Conclucion>> futureConclucion;
   void initState() {
     super.initState();
-    futurePostura = fetchAtiende();
+    futureConclucion = fetchConclucion();
   }
 
   @override
@@ -73,7 +76,7 @@ class _ListaPosturaState extends State<ListaPostura> {
             icon: new Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => print('')),
         title: Text(
-          "Que Postura Tiene",
+          "Que Conclucion Obtuvo",
           style: TextStyle(fontSize: 24.0),
         ),
       ),
@@ -81,11 +84,11 @@ class _ListaPosturaState extends State<ListaPostura> {
           ? Colors.blue
           : Color.fromRGBO(52, 73, 94, 1.0),
       body: Center(
-        child: FutureBuilder<List<Postura>>(
-          future: futurePostura,
+        child: FutureBuilder<List<Conclucion>>(
+          future: futureConclucion,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<Postura> data = snapshot.data;
+              List<Conclucion> data = snapshot.data;
               return ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -106,12 +109,12 @@ class _ListaPosturaState extends State<ListaPostura> {
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w800)),
                           onTap: () {
-                            prefs.postura = data[index].nombre.toString();
+                            prefs.conclucion = data[index].nombre.toString();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => GestionPage(
-                                  postura: data[index].nombre.toString(),
+                                  conclucion: data[index].nombre.toString(),
                                 ),
                               ),
                             );

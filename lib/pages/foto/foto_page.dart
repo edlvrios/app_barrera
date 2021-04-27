@@ -39,6 +39,11 @@ class _CamaraPageState extends State<CamaraPage> {
     setState(() {
       prefs.rutaFoto = result;
       prefs.foto = base;
+      prefs.vivienda = '';
+      prefs.atiende = '';
+      prefs.postura = '';
+      prefs.conclucion = '';
+      prefs.accion = '';
       imageFinal = imageConvert;
       Navigator.push(
         context,
@@ -56,56 +61,6 @@ class _CamaraPageState extends State<CamaraPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Text('hola');
-    /*Scaffold(
-      backgroundColor: (prefs.colorSecundario == false)
-          ? Colors.blue
-          : Color.fromRGBO(52, 73, 94, 1.0),
-      floatingActionButton: Visibility(
-        visible: (prefs.foto == '') ? true : false,
-        child: FloatingActionButton(
-          onPressed: () {
-            _showCamera();
-          },
-          child: const Icon(Icons.add_a_photo),
-          backgroundColor: Colors.amberAccent,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(top: 50.0),
-          child: Column(
-            children: [
-              Card(
-                color: Colors.white,
-                margin: EdgeInsets.all(25),
-                elevation: 10,
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
-                      title: (prefs.foto == '')
-                          ? Text('Toma una Foto Para Iniciar la Gestion')
-                          : Text('Foto Tomada'),
-                      leading: Icon(Icons.add_a_photo, color: Colors.blue),
-                      trailing:
-                          Icon(Icons.keyboard_arrow_right, color: Colors.blue),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GestionPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );*/
+    return Text('');
   }
 }

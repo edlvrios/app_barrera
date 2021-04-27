@@ -59,10 +59,10 @@ class _TakePicturePageState extends State<TakePicturePage> {
         child: Align(
           alignment: Alignment.bottomRight,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
               child: FloatingActionButton(
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.blue,
                 child: Icon(Icons.camera_alt),
                 onPressed: () {
                   _takePicture(context);

@@ -6,6 +6,7 @@ import 'package:diseno_login/pages/lista_page.dart';
 import 'package:diseno_login/pages/login_page.dart';
 import 'package:diseno_login/widgets/menu/menu_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
@@ -38,10 +39,16 @@ class _HomePageState extends State<HomePage> {
 
   FindHelper find = new FindHelper();
   final prefs = new PreferenciasUsuario();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     prefs.ultimaPagina = HomePage.routName;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: (prefs.colorSecundario == false)
+          ? Colors.blue
+          : Color.fromRGBO(52, 73, 94, 1.0), // navigation bar color
+    ));
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
