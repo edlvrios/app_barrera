@@ -32,12 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: (prefs.colorSecundario == false)
-            ? Colors.blue
-            : Color.fromRGBO(52, 73, 94, 1.0),
-      ),
+      SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent),
     );
     return MultiProvider(
       providers: [

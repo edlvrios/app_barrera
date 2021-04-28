@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
+// ignore: missing_return
 Future<List<Postura>> fetchAtiende() async {
   final prefs = new PreferenciasUsuario();
   final url =
@@ -26,12 +27,14 @@ class Postura {
   final int id;
   final String nombre;
   final String vivienda;
+  // ignore: non_constant_identifier_names
   final String data_token;
 
   Postura({
     this.id,
     this.nombre,
     this.vivienda,
+    // ignore: non_constant_identifier_names
     this.data_token,
   });
 
@@ -96,10 +99,9 @@ class _ListaPosturaState extends State<ListaPostura> {
                         margin:
                             EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
                         child: ListTile(
-                          leading: Icon(Icons.people,
-                              color: Colors.lightBlueAccent[400]),
+                          leading: Icon(Icons.people, color: Colors.cyan[600]),
                           trailing: Icon(Icons.keyboard_arrow_right,
-                              color: Colors.blue),
+                              color: Colors.cyan[600]),
                           title: Text(data[index].nombre,
                               style: TextStyle(
                                   color: Colors.black,

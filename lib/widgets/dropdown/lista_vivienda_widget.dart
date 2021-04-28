@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
+// ignore: missing_return
 Future<List<Vivienda>> fetchVivienda() async {
   final prefs = new PreferenciasUsuario();
   final url = 'http://187.162.64.236:9090/api/auth/lista/vivienda';
@@ -24,11 +25,13 @@ Future<List<Vivienda>> fetchVivienda() async {
 class Vivienda {
   final int id;
   final String nombre;
+  // ignore: non_constant_identifier_names
   final String data_token;
 
   Vivienda({
     this.id,
     this.nombre,
+    // ignore: non_constant_identifier_names
     this.data_token,
   });
 
@@ -66,9 +69,6 @@ class _ListaViviendaState extends State<ListaVivienda> {
           backgroundColor: (prefs.colorSecundario == false)
               ? Colors.blue
               : Color.fromRGBO(52, 73, 94, 1.0),
-          leading: IconButton(
-              icon: new Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => print('')),
           title: Text(
             "Tipo de Vivienda",
             style: TextStyle(fontSize: 24.0),
@@ -93,10 +93,10 @@ class _ListaViviendaState extends State<ListaVivienda> {
                           margin: EdgeInsets.only(
                               top: 15.0, left: 10.0, right: 10.0),
                           child: ListTile(
-                            leading: Icon(Icons.people,
-                                color: Colors.lightBlueAccent[400]),
+                            leading:
+                                Icon(Icons.people, color: Colors.cyan[600]),
                             trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.blue),
+                                color: Colors.cyan[600]),
                             title: Text(data[index].nombre,
                                 style: TextStyle(
                                     color: Colors.black,

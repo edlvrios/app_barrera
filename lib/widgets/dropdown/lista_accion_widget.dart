@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
+// ignore: missing_return
 Future<List<Accion>> fetchAccion() async {
   final prefs = new PreferenciasUsuario();
   final server = 'http://187.162.64.236:9090/api/auth/lista/';
@@ -29,6 +30,7 @@ class Accion {
   final String conclucion;
   final String postura;
   final String vivienda;
+  // ignore: non_constant_identifier_names
   final String data_token;
 
   Accion({
@@ -37,6 +39,7 @@ class Accion {
     this.conclucion,
     this.postura,
     this.vivienda,
+    // ignore: non_constant_identifier_names
     this.data_token,
   });
 
@@ -105,8 +108,7 @@ class _ListaAccionState extends State<ListaAccion> {
                         margin:
                             EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
                         child: ListTile(
-                          leading: Icon(Icons.people,
-                              color: Colors.lightBlueAccent[400]),
+                          leading: Icon(Icons.people, color: Colors.cyan[600]),
                           trailing: Icon(Icons.keyboard_arrow_right,
                               color: Colors.blue),
                           title: Text(data[index].nombre,

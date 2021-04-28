@@ -148,13 +148,13 @@ class _ListaPageState extends State<ListaPage> {
                           margin: EdgeInsets.only(
                               top: 15.0, left: 10.0, right: 10.0),
                           child: ListTile(
-                            leading: Icon(Icons.people,
-                                color: Colors.lightBlueAccent[400]),
+                            leading:
+                                Icon(Icons.people, color: Colors.cyan[600]),
                             trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.blue),
+                                color: Colors.cyan[600]),
                             subtitle: Text(data[index].credito.toString(),
                                 style: TextStyle(
-                                    color: Colors.lightBlueAccent[400],
+                                    color: Colors.cyan[600],
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w800)),
                             title: Text(data[index].nombre,
@@ -186,7 +186,7 @@ class _ListaPageState extends State<ListaPage> {
                 backgroundColor: Colors.white,
                 valueColor: AlwaysStoppedAnimation(
                   (prefs.colorSecundario == false)
-                      ? Colors.blue
+                      ? Colors.cyan[600]
                       : Color.fromRGBO(52, 73, 94, 1.0),
                 ),
               );

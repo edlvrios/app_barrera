@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+//paketes propios
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 import 'package:diseno_login/widgets/dropdown/lista_accion_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_atiende_widget.dart';
@@ -8,7 +9,9 @@ import 'package:diseno_login/widgets/dropdown/lista_conclucion_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_postura_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_vivienda_widget.dart';
 import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
-import 'package:flutter/material.dart';
+//packetes de terceros
+import 'package:http/http.dart' as http;
+import 'package:badges/badges.dart';
 
 void main() => runApp(GestionPage());
 
@@ -34,10 +37,16 @@ class GestionPage extends StatefulWidget {
 
 class _GestionPageState extends State<GestionPage> {
   final prefs = new PreferenciasUsuario();
+  bool extraData;
+  final TextEditingController _telefonoController = new TextEditingController();
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _comentarioController =
+      new TextEditingController();
   // ignore: avoid_init_to_null
   File imageFinal;
   void initState() {
     super.initState();
+    extraData = false;
     _convertbasetofile();
   }
 
@@ -51,7 +60,84 @@ class _GestionPageState extends State<GestionPage> {
     });
   }
 
+  void _saveGestion() async {
+    final time = DateTime.now();
+    prefs.horaFin = time.hour.toString() +
+        ":" +
+        time.minute.toString() +
+        ":" +
+        time.second.toString();
+    final url = 'http://187.162.64.236:9090/api/auth/guardar/gestion';
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'X-Request-With': 'XMLHhttpRequest',
+        'Authorization': 'Bearer ${prefs.token}'
+      },
+      body: {
+        'usuario': '${prefs.username}',
+        'credito': '${prefs.credito}',
+        'vivienda': '${prefs.vivienda}',
+        'atiende': '${prefs.atiende}',
+        'postura': '${prefs.postura}',
+        'conclucion': '${prefs.conclucion}',
+        'accion': '${prefs.accion}',
+        'latitud': '${prefs.latitude}',
+        'longitud': '${prefs.longitude}',
+        'hora_inicio': '${prefs.horaInicio}',
+        'hora_fin': '${prefs.horaFin}',
+        'foto': '${prefs.foto}',
+      },
+    );
+    if (response.statusCode == 201) {
+      prefs.credito = "";
+      prefs.vivienda = "";
+      prefs.atiende = "";
+      prefs.postura = "";
+      prefs.conclucion = "";
+      prefs.accion = "";
+      prefs.latitude = 0.0;
+      prefs.longitude = 0.0;
+      prefs.horaInicio = "";
+      prefs.horaFin = "";
+      prefs.foto = "";
+    }
+  }
+
   final estiloTitulo = TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
+
+  // ignore: missing_return
+  Widget _dialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsOverflowButtonSpacing: 0.5,
+          title: Text("Capturaras algun Telefono o E-mail"),
+          actions: [
+            FlatButton(
+                onPressed: () {
+                  setState(() {
+                    extraData = false;
+                  });
+                  Navigator.pop(context, false);
+                },
+                child: Text('No')),
+            FlatButton(
+                onPressed: () {
+                  setState(() {
+                    extraData = true;
+                  });
+                  Navigator.pop(context, true);
+                },
+                child: Text('Si')),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +150,17 @@ class _GestionPageState extends State<GestionPage> {
               prefs.postura != '' &&
               prefs.conclucion != '' &&
               prefs.accion != '')
-          ? FloatingActionButton(
-              onPressed: () {},
-              child: const Icon(Icons.save),
-              backgroundColor: Colors.orange,
+          ? Badge(
+              position: BadgePosition.topStart(start: 30, top: -10.0),
+              badgeContent: Text("1"),
+              child: FloatingActionButton(
+                onPressed: () {
+                  _dialog(context);
+                  //_saveGestion();
+                },
+                child: const Icon(Icons.assignment),
+                backgroundColor: Colors.cyan[600],
+              ),
             )
           : Text(''),
       body: SingleChildScrollView(
@@ -86,9 +179,138 @@ class _GestionPageState extends State<GestionPage> {
             SizedBox(height: 0.5),
             _listaConclucion(),
             SizedBox(height: 0.5),
-            _listaAccion()
+            _listaAccion(),
+            SizedBox(height: 1.5),
+            _inputTelefono(context),
+            SizedBox(height: 1.5),
+            _inputEmail(context),
+            SizedBox(height: 1.5),
+            _inputComentario(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _inputTelefono(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10.5),
+          Text("Numero Telefonico",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w800)),
+          SizedBox(height: 10.5),
+          TextField(
+            controller: _telefonoController,
+            keyboardType: TextInputType.phone,
+            maxLength: 10,
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+              hintText: 'Telefono',
+              hintStyle: TextStyle(
+                color: Colors.black,
+              ),
+              suffixIcon: Icon(
+                Icons.add_ic_call,
+                color: Colors.cyan[300],
+              ),
+              icon: Icon(
+                Icons.phone,
+                color: Colors.cyan[300],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _inputEmail(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10.5),
+          Text("Correro Electronico",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w800)),
+          SizedBox(height: 10.5),
+          TextField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            maxLength: 30,
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+              hintText: 'E-mail',
+              hintStyle: TextStyle(
+                color: Colors.black,
+              ),
+              suffixIcon: Icon(
+                Icons.alternate_email,
+                color: Colors.cyan[300],
+              ),
+              icon: Icon(
+                Icons.mark_email_read,
+                color: Colors.cyan[300],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _inputComentario(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10.5),
+          Text("Comentario de Gestion",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w800)),
+          SizedBox(height: 10.5),
+          TextField(
+            controller: _comentarioController,
+            keyboardType: TextInputType.text,
+            maxLength: 100,
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+              hintText: 'Comentario',
+              hintStyle: TextStyle(
+                color: Colors.black,
+              ),
+              suffixIcon: Icon(
+                Icons.edit,
+                color: Colors.cyan[300],
+              ),
+              icon: Icon(
+                Icons.post_add,
+                color: Colors.cyan[300],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -118,11 +340,10 @@ class _GestionPageState extends State<GestionPage> {
           child: ListTile(
             leading: Icon(
               Icons.apartment,
-              color: Colors.amber[800],
+              color: Colors.cyan[300],
               size: 45.0,
             ),
-            trailing:
-                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
             title: Text('Tipo de Vivienda'),
             subtitle: (prefs.vivienda == '')
                 ? Text('Selecciona el tipo de Vivienda')
@@ -154,11 +375,10 @@ class _GestionPageState extends State<GestionPage> {
           child: ListTile(
             leading: Icon(
               Icons.record_voice_over,
-              color: Colors.amber[800],
+              color: Colors.cyan[300],
               size: 45.0,
             ),
-            trailing:
-                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
             title: Text('Quien de Atiende'),
             subtitle: (prefs.atiende == '')
                 ? Text('Selecciona Quien Atiende')
@@ -190,11 +410,10 @@ class _GestionPageState extends State<GestionPage> {
           child: ListTile(
             leading: Icon(
               Icons.psychology,
-              color: Colors.amber[800],
+              color: Colors.cyan[300],
               size: 45.0,
             ),
-            trailing:
-                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
             title: Text('Quien Postura Tiene'),
             subtitle: (prefs.postura == '')
                 ? Text('Selecciona Que Postura Tiene')
@@ -227,11 +446,10 @@ class _GestionPageState extends State<GestionPage> {
           child: ListTile(
             leading: Icon(
               Icons.emoji_people,
-              color: Colors.amber[800],
+              color: Colors.cyan[300],
               size: 45.0,
             ),
-            trailing:
-                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
             title: Text('Quien Conclucion Obtuvo'),
             subtitle: (prefs.conclucion == '')
                 ? Text('Selecciona Que Conclucion Obtuvo')
@@ -264,11 +482,10 @@ class _GestionPageState extends State<GestionPage> {
           child: ListTile(
             leading: Icon(
               Icons.check_circle_outline,
-              color: Colors.amber[800],
+              color: Colors.cyan[300],
               size: 45.0,
             ),
-            trailing:
-                Icon(Icons.keyboard_arrow_right, color: Colors.amber[800]),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
             title: Text('Quien Accion Obtuvo'),
             subtitle: (prefs.conclucion == '')
                 ? Text('Selecciona Que Accion Obtuvo')
@@ -316,7 +533,7 @@ class _GestionPageState extends State<GestionPage> {
                     ),
                   ),
                   Icon(Icons.account_circle,
-                      color: Colors.amber[800], size: 45.0),
+                      color: Colors.cyan[300], size: 45.0),
                   Text('${prefs.credito}',
                       style: TextStyle(fontSize: 15.0, color: Colors.grey[700]))
                 ],

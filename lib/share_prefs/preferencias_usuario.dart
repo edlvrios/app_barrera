@@ -149,4 +149,20 @@ class PreferenciasUsuario {
   set rutaFoto(String value) {
     _prefs.setString('rutaFoto', value);
   }
+
+  get horaInicio {
+    return _prefs.getString('horaInicio') ?? '00:00:00';
+  }
+
+  set horaInicio(String value) {
+    _prefs.setString('horaInicio', value);
+  }
+
+  get horaFin {
+    return _prefs.getString('horaFin') ?? '00:00:00';
+  }
+
+  set horaFin(String value) {
+    _prefs.setString('horaFin', value);
+  }
 }

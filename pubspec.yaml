@@ -34,6 +34,7 @@ dependencies:
   expandable: ^4.1.4
   location: ^3.2.4
   provider: ^4.3.3
+  badges: ^1.2.0
   camera: ^0.5.7+2
   scoped_model: ^1.0.1
   http: ^0.12.0+4

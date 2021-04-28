@@ -55,7 +55,7 @@ class _PosicionWidgetState extends State<PosicionWidget> {
                         ],
                       ),
                     ),
-                    Icon(Icons.room, color: Colors.amber[800], size: 45.0),
+                    Icon(Icons.room, color: Colors.cyan[300], size: 45.0),
                     Text('${prefs.latitude}',
                         style:
                             TextStyle(fontSize: 15.0, color: Colors.grey[700]))
