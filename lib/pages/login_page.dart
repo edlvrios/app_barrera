@@ -191,7 +191,13 @@ class _LoginPageState extends State<LoginPage> {
         keyboardType: TextInputType.emailAddress,
         textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(0.0),
+          ),
+          focusedBorder: new OutlineInputBorder(
+              borderRadius: new BorderRadius.circular(30.0),
+              borderSide: BorderSide(color: Colors.grey[400]),
+              gapPadding: 4.0),
           hintText: 'Usuario',
           hintStyle: TextStyle(
             color: (prefs.colorSecundario == false)
@@ -219,8 +225,13 @@ class _LoginPageState extends State<LoginPage> {
         controller: _passwordController,
         textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(0.0),
+            ),
+            focusedBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(30.0),
+                borderSide: BorderSide(color: Colors.grey[400]),
+                gapPadding: 4.0),
             hintText: 'Password',
             hintStyle: TextStyle(
               color: (prefs.colorSecundario == false)

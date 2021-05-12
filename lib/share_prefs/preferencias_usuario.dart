@@ -165,4 +165,44 @@ class PreferenciasUsuario {
   set horaFin(String value) {
     _prefs.setString('horaFin', value);
   }
+
+  get telefono {
+    return _prefs.getString('telefono') ?? '';
+  }
+
+  set telefono(String value) {
+    _prefs.setString('telefono', value);
+  }
+
+  get email {
+    return _prefs.getString('email') ?? '';
+  }
+
+  set email(String value) {
+    _prefs.setString('email', value);
+  }
+
+  get comentario {
+    return _prefs.getString('comentario') ?? '';
+  }
+
+  set comentario(String value) {
+    _prefs.setString('comentario', value);
+  }
+
+  get respuestaSi {
+    return _prefs.getBool('respuestaSi') ?? false;
+  }
+
+  set respuestaSi(bool value) {
+    _prefs.setBool('respuestaSi', value);
+  }
+
+  get respuestaNo {
+    return _prefs.getBool('respuestaNo') ?? false;
+  }
+
+  set respuestaNo(bool value) {
+    _prefs.setBool('respuestaNo', value);
+  }
 }

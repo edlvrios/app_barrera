@@ -13,14 +13,12 @@ import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 // ignore: missing_return
 Future<List<InfoCredito>> fetchInfoCredito() async {
   final prefs = new PreferenciasUsuario();
-  print(prefs.credito);
   final url = 'http://187.162.64.236:9090/api/auth/credito/${prefs.credito}';
   final response = await http.get(url, headers: {
     'Accept': 'application/json',
     'X-Request-With': 'XMLHhttpRequest',
     'Authorization': 'Bearer ${prefs.token}'
   });
-  print(response.statusCode);
   if (response.statusCode == 201) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => new InfoCredito.fromJson(data)).toList();
@@ -133,6 +131,8 @@ class _InfoPageState extends State<InfoPage> {
   Future<List<InfoCredito>> futureInfoCredito;
   @override
   void initState() {
+    prefs.credito = widget.credito;
+    print(prefs.credito);
     super.initState();
     futureInfoCredito = fetchInfoCredito();
     final time = DateTime.now();
@@ -360,7 +360,7 @@ class _InfoPageState extends State<InfoPage> {
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            '${format.format(int.parse(data[index].saldoActual))}',
+                            '${data[index].saldoActual}',
                             style: TextStyle(
                                 color: Colors.cyan[600],
                                 fontSize: 16.0,
@@ -456,7 +456,7 @@ class _InfoPageState extends State<InfoPage> {
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            '${format.format(int.parse(data[index].importeRegularizar))}',
+                            '${data[index].importeRegularizar}',
                             style: TextStyle(
                                 color: Colors.cyan[600],
                                 fontSize: 16.0,
@@ -480,7 +480,7 @@ class _InfoPageState extends State<InfoPage> {
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            '${format.format(int.parse(data[index].seguroActual))}',
+                            '${data[index].seguroActual}',
                             style: TextStyle(
                                 color: Colors.cyan[600],
                                 fontSize: 16.0,
@@ -644,14 +644,14 @@ class _InfoPageState extends State<InfoPage> {
                             EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                         child: ListTile(
                           leading: Icon(Icons.insert_invitation,
-                              color: (int.parse(data[index].fpp1) == 0)
+                              color: (double.parse(data[index].fpp1) == 0)
                                   ? Colors.red
                                   : Colors.cyan[600]),
                           trailing: Icon(
-                              (int.parse(data[index].fpp1) == 0)
+                              (double.parse(data[index].fpp1) == 0)
                                   ? Icons.block
                                   : Icons.check,
-                              color: (int.parse(data[index].fpp1) == 0)
+                              color: (double.parse(data[index].fpp1) == 0)
                                   ? Colors.red
                                   : Colors.green),
                           title: Text(
@@ -664,7 +664,7 @@ class _InfoPageState extends State<InfoPage> {
                           subtitle: Text(
                             data[index].fpp1,
                             style: TextStyle(
-                                color: (int.parse(data[index].fpp1) == 0)
+                                color: (double.parse(data[index].fpp1) == 0)
                                     ? Colors.red
                                     : Colors.cyan[600],
                                 fontSize: 16.0,
@@ -678,14 +678,14 @@ class _InfoPageState extends State<InfoPage> {
                             EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                         child: ListTile(
                           leading: Icon(Icons.insert_invitation,
-                              color: (int.parse(data[index].fpp2) == 0)
+                              color: (double.parse(data[index].fpp2) == 0)
                                   ? Colors.red
                                   : Colors.cyan[600]),
                           trailing: Icon(
-                              (int.parse(data[index].fpp2) == 0)
+                              (double.parse(data[index].fpp2) == 0)
                                   ? Icons.block
                                   : Icons.check,
-                              color: (int.parse(data[index].fpp2) == 0)
+                              color: (double.parse(data[index].fpp2) == 0)
                                   ? Colors.red
                                   : Colors.green),
                           title: Text(
@@ -698,7 +698,7 @@ class _InfoPageState extends State<InfoPage> {
                           subtitle: Text(
                             data[index].fpp2,
                             style: TextStyle(
-                                color: (int.parse(data[index].fpp2) == 0)
+                                color: (double.parse(data[index].fpp2) == 0)
                                     ? Colors.red
                                     : Colors.cyan[600],
                                 fontSize: 16.0,
@@ -712,14 +712,14 @@ class _InfoPageState extends State<InfoPage> {
                             EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                         child: ListTile(
                           leading: Icon(Icons.insert_invitation,
-                              color: (int.parse(data[index].fpp3) == 0)
+                              color: (double.parse(data[index].fpp3) == 0)
                                   ? Colors.red
                                   : Colors.cyan[600]),
                           trailing: Icon(
-                              (int.parse(data[index].fpp3) == 0)
+                              (double.parse(data[index].fpp3) == 0)
                                   ? Icons.block
                                   : Icons.check,
-                              color: (int.parse(data[index].fpp3) == 0)
+                              color: (double.parse(data[index].fpp3) == 0)
                                   ? Colors.red
                                   : Colors.green),
                           title: Text(
@@ -732,7 +732,7 @@ class _InfoPageState extends State<InfoPage> {
                           subtitle: Text(
                             data[index].fpp3,
                             style: TextStyle(
-                                color: (int.parse(data[index].fpp3) == 0)
+                                color: (double.parse(data[index].fpp3) == 0)
                                     ? Colors.red
                                     : Colors.cyan[600],
                                 fontSize: 16.0,
@@ -746,14 +746,14 @@ class _InfoPageState extends State<InfoPage> {
                             EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                         child: ListTile(
                           leading: Icon(Icons.insert_invitation,
-                              color: (int.parse(data[index].fpp4) == 0)
+                              color: (double.parse(data[index].fpp4) == 0)
                                   ? Colors.red
                                   : Colors.cyan[600]),
                           trailing: Icon(
-                              (int.parse(data[index].fpp4) == 0)
+                              (double.parse(data[index].fpp4) == 0)
                                   ? Icons.block
                                   : Icons.check,
-                              color: (int.parse(data[index].fpp4) == 0)
+                              color: (double.parse(data[index].fpp4) == 0)
                                   ? Colors.red
                                   : Colors.green),
                           title: Text(
@@ -766,7 +766,7 @@ class _InfoPageState extends State<InfoPage> {
                           subtitle: Text(
                             data[index].fpp4,
                             style: TextStyle(
-                                color: (int.parse(data[index].fpp4) == 0)
+                                color: (double.parse(data[index].fpp4) == 0)
                                     ? Colors.red
                                     : Colors.cyan[600],
                                 fontSize: 16.0,
@@ -780,14 +780,14 @@ class _InfoPageState extends State<InfoPage> {
                             EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                         child: ListTile(
                           leading: Icon(Icons.insert_invitation,
-                              color: (int.parse(data[index].fpp5) == 0)
+                              color: (double.parse(data[index].fpp5) == 0)
                                   ? Colors.red
                                   : Colors.cyan[600]),
                           trailing: Icon(
-                              (int.parse(data[index].fpp5) == 0)
+                              (double.parse(data[index].fpp5) == 0)
                                   ? Icons.block
                                   : Icons.check,
-                              color: (int.parse(data[index].fpp5) == 0)
+                              color: (double.parse(data[index].fpp5) == 0)
                                   ? Colors.red
                                   : Colors.green),
                           title: Text(
@@ -800,7 +800,7 @@ class _InfoPageState extends State<InfoPage> {
                           subtitle: Text(
                             data[index].fpp5,
                             style: TextStyle(
-                                color: (int.parse(data[index].fpp6) == 0)
+                                color: (double.parse(data[index].fpp6) == 0)
                                     ? Colors.red
                                     : Colors.cyan[600],
                                 fontSize: 16.0,
@@ -814,14 +814,14 @@ class _InfoPageState extends State<InfoPage> {
                             EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                         child: ListTile(
                           leading: Icon(Icons.insert_invitation,
-                              color: (int.parse(data[index].fpp6) == 0)
+                              color: (double.parse(data[index].fpp6) == 0)
                                   ? Colors.red
                                   : Colors.cyan[600]),
                           trailing: Icon(
-                              (int.parse(data[index].fpp6) == 0)
+                              (double.parse(data[index].fpp6) == 0)
                                   ? Icons.block
                                   : Icons.check,
-                              color: (int.parse(data[index].fpp6) == 0)
+                              color: (double.parse(data[index].fpp6) == 0)
                                   ? Colors.red
                                   : Colors.green),
                           title: Text(
@@ -834,7 +834,7 @@ class _InfoPageState extends State<InfoPage> {
                           subtitle: Text(
                             data[index].fpp6,
                             style: TextStyle(
-                                color: (int.parse(data[index].fpp6) == 0)
+                                color: (double.parse(data[index].fpp6) == 0)
                                     ? Colors.red
                                     : Colors.cyan[600],
                                 fontSize: 16.0,
@@ -848,14 +848,14 @@ class _InfoPageState extends State<InfoPage> {
                             EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                         child: ListTile(
                           leading: Icon(Icons.insert_invitation,
-                              color: (int.parse(data[index].fpp7) == 0)
+                              color: (double.parse(data[index].fpp7) == 0)
                                   ? Colors.red
                                   : Colors.cyan[600]),
                           trailing: Icon(
-                              (int.parse(data[index].fpp7) == 0)
+                              (double.parse(data[index].fpp7) == 0)
                                   ? Icons.block
                                   : Icons.check,
-                              color: (int.parse(data[index].fpp7) == 0)
+                              color: (double.parse(data[index].fpp7) == 0)
                                   ? Colors.red
                                   : Colors.green),
                           title: Text(
@@ -868,7 +868,7 @@ class _InfoPageState extends State<InfoPage> {
                           subtitle: Text(
                             data[index].fpp7,
                             style: TextStyle(
-                                color: (int.parse(data[index].fpp7) == 0)
+                                color: (double.parse(data[index].fpp7) == 0)
                                     ? Colors.red
                                     : Colors.cyan[600],
                                 fontSize: 16.0,

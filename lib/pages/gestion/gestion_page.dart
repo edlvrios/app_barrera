@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:diseno_login/pages/home_page.dart';
 import 'package:flutter/material.dart';
 //paketes propios
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
@@ -38,6 +39,7 @@ class GestionPage extends StatefulWidget {
 class _GestionPageState extends State<GestionPage> {
   final prefs = new PreferenciasUsuario();
   bool extraData;
+  bool _circularProgress = false;
   final TextEditingController _telefonoController = new TextEditingController();
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _comentarioController =
@@ -47,11 +49,12 @@ class _GestionPageState extends State<GestionPage> {
   void initState() {
     super.initState();
     extraData = false;
+    prefs.respuestaNo = false;
+    prefs.respuestaSi = false;
     _convertbasetofile();
   }
 
   void _convertbasetofile() {
-    print(prefs.rutaFoto);
     final decodeBytes = base64Decode(prefs.foto);
     final file = File(prefs.rutaFoto);
     file.writeAsBytesSync(decodeBytes);
@@ -61,6 +64,16 @@ class _GestionPageState extends State<GestionPage> {
   }
 
   void _saveGestion() async {
+    setState(() {
+      _circularProgress = true;
+    });
+    if (_telefonoController.text.isNotEmpty) {
+      if (_emailController.text.isNotEmpty) {
+        prefs.telefono = _telefonoController.text.trim();
+        prefs.email = _emailController.text.trim();
+      }
+    }
+    prefs.comentario = _comentarioController.text.toUpperCase();
     final time = DateTime.now();
     prefs.horaFin = time.hour.toString() +
         ":" +
@@ -68,6 +81,24 @@ class _GestionPageState extends State<GestionPage> {
         ":" +
         time.second.toString();
     final url = 'http://187.162.64.236:9090/api/auth/guardar/gestion';
+    final body = {
+      'usuario': '${prefs.username}',
+      'credito': '${prefs.credito}',
+      'vivienda': '${prefs.vivienda}',
+      'atiende': '${prefs.atiende}',
+      'postura': '${prefs.postura}',
+      'conclucion': '${prefs.conclucion}',
+      'accion': '${prefs.accion}',
+      'latitud': '${prefs.latitude}',
+      'longitud': '${prefs.longitude}',
+      'hora_inicio': '${prefs.horaInicio}',
+      'hora_fin': '${prefs.horaFin}',
+      'foto': '${prefs.foto}',
+      'telefono': '${prefs.telefono}',
+      'email': '${prefs.email}',
+      'comentario': '${prefs.comentario}'
+    };
+    print(body);
     final response = await http.post(
       url,
       headers: {
@@ -75,20 +106,7 @@ class _GestionPageState extends State<GestionPage> {
         'X-Request-With': 'XMLHhttpRequest',
         'Authorization': 'Bearer ${prefs.token}'
       },
-      body: {
-        'usuario': '${prefs.username}',
-        'credito': '${prefs.credito}',
-        'vivienda': '${prefs.vivienda}',
-        'atiende': '${prefs.atiende}',
-        'postura': '${prefs.postura}',
-        'conclucion': '${prefs.conclucion}',
-        'accion': '${prefs.accion}',
-        'latitud': '${prefs.latitude}',
-        'longitud': '${prefs.longitude}',
-        'hora_inicio': '${prefs.horaInicio}',
-        'hora_fin': '${prefs.horaFin}',
-        'foto': '${prefs.foto}',
-      },
+      body: body,
     );
     if (response.statusCode == 201) {
       prefs.credito = "";
@@ -102,6 +120,11 @@ class _GestionPageState extends State<GestionPage> {
       prefs.horaInicio = "";
       prefs.horaFin = "";
       prefs.foto = "";
+
+      setState(() {
+        _circularProgress = false;
+      });
+      Navigator.pushReplacementNamed(context, HomePage.routName);
     }
   }
 
@@ -129,6 +152,7 @@ class _GestionPageState extends State<GestionPage> {
                 onPressed: () {
                   setState(() {
                     extraData = true;
+                    prefs.respuestaSi = true;
                   });
                   Navigator.pop(context, true);
                 },
@@ -153,14 +177,19 @@ class _GestionPageState extends State<GestionPage> {
           ? Badge(
               position: BadgePosition.topStart(start: 30, top: -10.0),
               badgeContent: Text("1"),
-              child: FloatingActionButton(
-                onPressed: () {
-                  _dialog(context);
-                  //_saveGestion();
-                },
-                child: const Icon(Icons.assignment),
-                backgroundColor: Colors.cyan[600],
-              ),
+              badgeColor: Colors.greenAccent,
+              child: (extraData == true)
+                  ? Text('')
+                  : (prefs.respuestaSi == true)
+                      ? Text('')
+                      : FloatingActionButton(
+                          onPressed: () {
+                            _dialog(context);
+                            //_saveGestion();
+                          },
+                          child: const Icon(Icons.mail_outline),
+                          backgroundColor: Colors.cyan[600],
+                        ),
             )
           : Text(''),
       body: SingleChildScrollView(
@@ -181,11 +210,18 @@ class _GestionPageState extends State<GestionPage> {
             SizedBox(height: 0.5),
             _listaAccion(),
             SizedBox(height: 1.5),
-            _inputTelefono(context),
-            SizedBox(height: 1.5),
-            _inputEmail(context),
-            SizedBox(height: 1.5),
+            (prefs.respuestaSi == true && prefs.respuestaNo == false)
+                ? _inputTelefono(context)
+                : Text(""),
+            SizedBox(height: 1.0),
+            (prefs.respuestaSi == true && prefs.respuestaNo == false)
+                ? _inputEmail(context)
+                : Text(""),
+            SizedBox(height: 1.0),
             _inputComentario(context),
+            SizedBox(height: 1.0),
+            _crearBoton(context),
+            SizedBox(height: 1.0),
           ],
         ),
       ),
@@ -539,6 +575,36 @@ class _GestionPageState extends State<GestionPage> {
                 ],
               ),
             ),
+          );
+  }
+
+  Widget _crearBoton(BuildContext context) {
+    return _circularProgress == true
+        ? CircularProgressIndicator(
+            strokeWidth: 2,
+            backgroundColor: Colors.green,
+          )
+        : RaisedButton(
+            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 140.0, vertical: 15.0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.greenAccent,
+                    Colors.cyan[300],
+                  ],
+                ),
+              ),
+              child: Text('Guardar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  )),
+            ),
+            elevation: 3.0,
+            onPressed: _saveGestion,
           );
   }
 }

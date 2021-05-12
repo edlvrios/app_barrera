@@ -1,19 +1,9 @@
 //flutter
-import 'dart:io';
+import 'package:diseno_login/pages/credito/info_page.dart';
+import 'package:diseno_login/widgets/menu/menu_widget.dart';
 import 'package:flutter/material.dart';
 //service
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
-//widgets
-import 'package:diseno_login/widgets/internet_widget.dart';
-import 'package:diseno_login/widgets/take_picture_page.dart';
-import 'package:diseno_login/widgets/busqueda_widget.dart';
-import 'package:diseno_login/widgets/fondo/fondo_all_widget.dart';
-import 'package:diseno_login/widgets/menu/menu_widget.dart';
-//external
-import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:provider/provider.dart';
-import 'package:camera/camera.dart';
 
 class BusquedaPage extends StatefulWidget {
   static final String routName = 'busqueda';
@@ -26,118 +16,214 @@ class BusquedaPage extends StatefulWidget {
 class _BusquedaPageState extends State<BusquedaPage> {
   //url image takepicture
   // ignore: avoid_init_to_null
+  final prefs = new PreferenciasUsuario();
   String _path = null;
-  void _showCamera() async {
-    final cameras = await availableCameras();
-    final camera = cameras.first;
-    final result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TakePicturePage(camera: camera)));
-    setState(() {
-      _path = result;
-    });
-  }
+  bool _circularProgress = false;
+  final TextEditingController _creditoController = new TextEditingController();
 
-  void _showOptions(BuildContext context) {
-    showMaterialModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          height: 80.0,
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  _showCamera();
-                },
-                leading: Icon(Icons.photo_camera),
-                title: Text("Tomar Foto Con La Camara"),
-              )
-            ],
-          ),
-        );
-      },
-    );
+  void _searchCredito() async {
+    setState(() {
+      _circularProgress = true;
+    });
+    if (_creditoController.text.isNotEmpty) {
+      prefs.credito = _creditoController.text.trim();
+      Navigator.pushReplacementNamed(context, InfoPage.routeName);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final prefs = new PreferenciasUsuario();
     prefs.ultimaPagina = BusquedaPage.routName;
     prefs.credito = widget.credito;
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text(
-          'Busqueda de Credito',
-          style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              color: (prefs.colorSecundario) ? Colors.white : Colors.black),
-        ),
-        backgroundColor: (prefs.colorSecundario)
-            ? Color.fromRGBO(40, 62, 81, 1.0)
-            : Color.fromRGBO(150, 201, 61, 1.0),
+        automaticallyImplyLeading: false,
+        backgroundColor: (prefs.colorSecundario == false)
+            ? Colors.blue
+            : Color.fromRGBO(52, 73, 94, 1.0),
         elevation: 0.0,
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.sort,
+                color: Colors.white,
+                size: 30.0,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+        ],
       ),
-      extendBodyBehindAppBar: true,
       drawer: MenuWidget(),
-      body: Stack(children: [
-        FondoAllWidget(),
-        SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: size.height,
+            decoration: BoxDecoration(
+              color: (prefs.colorSecundario == false)
+                  ? Colors.white
+                  : Color.fromRGBO(52, 73, 94, 1.0),
+            ),
+          ),
+          Positioned(
+            child: _contenedorAccesoRapido(),
+          ),
+          Positioned(child: _cartaBusquedaRapida(context), top: 140, left: 10)
+        ],
+      ),
+    );
+  }
+
+  Widget _contenedorAccesoRapido() {
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: double.infinity,
+      height: size.height * 0.4,
+      decoration: BoxDecoration(
+        color: (prefs.colorSecundario == false)
+            ? Colors.blue
+            : Color.fromRGBO(52, 73, 94, 1.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            width: 100.0,
+            height: 100.0,
+            margin: EdgeInsets.only(top: 0.0),
+            child: Column(
+              children: [],
+            ),
+          ),
+          Container(
+            width: 100.0,
+            height: 100.0,
+            margin: EdgeInsets.only(top: 0.0),
+            child: Column(
+              children: [],
+            ),
+          ),
+          Container(
+            width: 100.0,
+            height: 100.0,
+            margin: EdgeInsets.only(top: 0.0),
+            child: Column(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _cartaBusquedaRapida(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width * 0.95,
+      height: size.height * 0.29,
+      child: Stack(children: [
+        Row(
+          children: [
+            Column(children: [
               Container(
-                padding: EdgeInsets.all(40.0),
+                padding: EdgeInsets.only(top: 10.0, left: 15.0),
+                child: Text(
+                  'Busqueda de Credito',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                      color: Colors.lightBlueAccent[400],
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w800),
+                ),
+              )
+            ]),
+          ],
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 80.0),
+          child: TextField(
+            controller: _creditoController,
+            keyboardType: TextInputType.phone,
+            maxLength: 10,
+            decoration: InputDecoration(
+              enabledBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(0.0),
+                borderSide: BorderSide(color: Colors.grey[300]),
               ),
-              Visibility(
-                visible: Provider.of<DataConnectionStatus>(context) ==
-                    DataConnectionStatus.disconnected,
-                child: InternetWidget(),
+              focusedBorder: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(30.0),
+                  borderSide: BorderSide(color: Colors.grey[400]),
+                  gapPadding: 4.0),
+              hintText: 'Credito',
+              hintStyle: TextStyle(
+                color: Colors.black,
               ),
-              widget.credito == null
-                  ? BusquedaWidget()
-                  : Container(
-                      height: size.height * 0.15,
-                      margin: EdgeInsets.only(right: 8.0, left: 8.0, top: 8.0),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 20.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            leading: Icon(
-                              _path == null
-                                  ? Icons.add_a_photo
-                                  : Icons.remove_red_eye,
-                              color: Colors.blueGrey,
-                            ),
-                            title: _path == null
-                                ? Text('Tomar Foto de Validacion')
-                                : Text('Ver Foto de Validacion'),
-                            trailing:
-                                Icon(Icons.fingerprint, color: Colors.grey),
-                            onTap: () => _path == null
-                                ? _showOptions(context)
-                                : showMaterialModalBottomSheet(
-                                    context: context,
-                                    builder: (context) =>
-                                        Image.file(File(_path))),
-                          ),
-                        ],
-                      ),
-                    ),
-              _path != null ? Text('Mostrar info del credito') : Text('Info')
-            ],
+              suffixIcon: Icon(
+                Icons.add_ic_call,
+                color: Colors.cyan[300],
+              ),
+            ),
           ),
         ),
+        _crearBoton(context)
       ]),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 4,
+            offset: Offset(1, 3), // Shadow position
+          ),
+        ],
+      ),
     );
+  }
+
+  Widget _crearBoton(BuildContext context) {
+    return _circularProgress == true
+        ? CircularProgressIndicator(
+            strokeWidth: 2,
+            backgroundColor: Colors.blueGrey,
+          )
+        : Container(
+            padding: EdgeInsets.only(top: 150.0, left: 100.0),
+            child: RaisedButton(
+              padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.greenAccent,
+                      Colors.cyan[300],
+                    ],
+                  ),
+                ),
+                child: Text('Buscar',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    )),
+              ),
+              elevation: 3.0,
+              onPressed: () {
+                if (_creditoController.text.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InfoPage(
+                        credito: _creditoController.text.trim(),
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+          );
   }
 }

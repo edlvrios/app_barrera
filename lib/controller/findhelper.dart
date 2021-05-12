@@ -17,10 +17,6 @@ class FindHelper {
       'Authorization': 'Bearer ${prefs.token}'
     });
     final data = json.decode(response.body);
-    /*if (data['message'] == 'Unauthenticated.') {
-      print('entrro');
-      prefs.token = 'sin Token';
-    }*/
     return data.length.toString();
   }
 }

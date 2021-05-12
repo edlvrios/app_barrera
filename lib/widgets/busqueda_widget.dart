@@ -25,19 +25,12 @@ class _BusquedaWidgetState extends State<BusquedaWidget> {
     final size = MediaQuery.of(context).size;
     final prefs = new PreferenciasUsuario();
     return Container(
-      height: size.height * 0.45,
-      margin: EdgeInsets.only(right: 10.0, left: 10.0, top: 5.0),
+      height: size.height * 0.25,
+      margin: EdgeInsets.only(right: 0.0, left: 0.0, top: 0.0),
       padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
       decoration: (prefs.colorSecundario)
           ? BoxDecoration(
-              borderRadius: BorderRadius.circular(50.0),
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(0, 198, 255, 1.0),
-                  Color.fromRGBO(0, 114, 255, 1.0),
-                ],
-              ),
-            )
+              borderRadius: BorderRadius.circular(0.0), color: Colors.white)
           : BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(50.0),
@@ -55,9 +48,7 @@ class _BusquedaWidgetState extends State<BusquedaWidget> {
                       style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: (prefs.colorSecundario)
-                              ? Colors.white
-                              : Colors.black),
+                          color: Colors.black),
                     ),
                   ],
                 ),
@@ -65,7 +56,7 @@ class _BusquedaWidgetState extends State<BusquedaWidget> {
               Icon(
                 Icons.support_agent_outlined,
                 size: 35.0,
-                color: (prefs.colorSecundario) ? Colors.white : Colors.black,
+                color: Colors.black,
               )
             ],
           ),
@@ -91,40 +82,6 @@ class _BusquedaWidgetState extends State<BusquedaWidget> {
               )
             ],
           ),
-          Row(
-            children: [
-              Container(
-                width: size.width - 80.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 70.0,
-                      height: 70.0,
-                      margin: EdgeInsets.only(top: 10.0),
-                      child: FittedBox(
-                        child: FloatingActionButton(
-                          backgroundColor: Colors.blueGrey,
-                          elevation: 0.0,
-                          child: Icon(Icons.search),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BusquedaPage(
-                                  credito: creditoController.text,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )
         ],
       ),
     );
