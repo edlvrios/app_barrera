@@ -213,6 +213,9 @@ class _BusquedaPageState extends State<BusquedaPage> {
               elevation: 3.0,
               onPressed: () {
                 if (_creditoController.text.isNotEmpty) {
+                  setState(() {
+                    prefs.creditoRespaldo = _creditoController.text.trim();
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(

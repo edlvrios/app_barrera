@@ -46,6 +46,14 @@ class PreferenciasUsuario {
     _prefs.setString('credito', value);
   }
 
+  get creditoRespaldo {
+    return _prefs.getString('creditoRespaldo') ?? '';
+  }
+
+  set creditoRespaldo(String value) {
+    _prefs.setString('creditoRespaldo', value);
+  }
+
   get colorSecundario {
     return _prefs.getBool('color') ?? false;
   }

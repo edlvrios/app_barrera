@@ -52,6 +52,7 @@ class _GestionPageState extends State<GestionPage> {
     prefs.respuestaNo = false;
     prefs.respuestaSi = false;
     _convertbasetofile();
+    print(prefs.creditoRespaldo);
   }
 
   void _convertbasetofile() {
@@ -81,50 +82,98 @@ class _GestionPageState extends State<GestionPage> {
         ":" +
         time.second.toString();
     final url = 'http://187.162.64.236:9090/api/auth/guardar/gestion';
-    final body = {
-      'usuario': '${prefs.username}',
-      'credito': '${prefs.credito}',
-      'vivienda': '${prefs.vivienda}',
-      'atiende': '${prefs.atiende}',
-      'postura': '${prefs.postura}',
-      'conclucion': '${prefs.conclucion}',
-      'accion': '${prefs.accion}',
-      'latitud': '${prefs.latitude}',
-      'longitud': '${prefs.longitude}',
-      'hora_inicio': '${prefs.horaInicio}',
-      'hora_fin': '${prefs.horaFin}',
-      'foto': '${prefs.foto}',
-      'telefono': '${prefs.telefono}',
-      'email': '${prefs.email}',
-      'comentario': '${prefs.comentario}'
-    };
-    print(body);
-    final response = await http.post(
-      url,
-      headers: {
-        'Accept': 'application/json',
-        'X-Request-With': 'XMLHhttpRequest',
-        'Authorization': 'Bearer ${prefs.token}'
-      },
-      body: body,
-    );
-    if (response.statusCode == 201) {
-      prefs.credito = "";
-      prefs.vivienda = "";
-      prefs.atiende = "";
-      prefs.postura = "";
-      prefs.conclucion = "";
-      prefs.accion = "";
-      prefs.latitude = 0.0;
-      prefs.longitude = 0.0;
-      prefs.horaInicio = "";
-      prefs.horaFin = "";
-      prefs.foto = "";
+    if (prefs.credito != 'Sin Credito Buscado') {
+      final body = {
+        'usuario': '${prefs.username}',
+        'credito': '${prefs.credito}',
+        'vivienda': '${prefs.vivienda}',
+        'atiende': '${prefs.atiende}',
+        'postura': '${prefs.postura}',
+        'conclucion': '${prefs.conclucion}',
+        'accion': '${prefs.accion}',
+        'latitud': '${prefs.latitude}',
+        'longitud': '${prefs.longitude}',
+        'hora_inicio': '${prefs.horaInicio}',
+        'hora_fin': '${prefs.horaFin}',
+        'foto': '${prefs.foto}',
+        'telefono': '${prefs.telefono}',
+        'email': '${prefs.email}',
+        'comentario': '${prefs.comentario}'
+      };
+      final response = await http.post(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'X-Request-With': 'XMLHhttpRequest',
+          'Authorization': 'Bearer ${prefs.token}'
+        },
+        body: body,
+      );
+      if (response.statusCode == 201) {
+        prefs.credito = "";
+        prefs.creditoRespaldo = "";
+        prefs.vivienda = "";
+        prefs.atiende = "";
+        prefs.postura = "";
+        prefs.conclucion = "";
+        prefs.accion = "";
+        prefs.latitude = 0.0;
+        prefs.longitude = 0.0;
+        prefs.horaInicio = "";
+        prefs.horaFin = "";
+        prefs.foto = "";
 
-      setState(() {
-        _circularProgress = false;
-      });
-      Navigator.pushReplacementNamed(context, HomePage.routName);
+        setState(() {
+          _circularProgress = false;
+        });
+        Navigator.pushReplacementNamed(context, HomePage.routName);
+      }
+    } else {
+      final body = {
+        'usuario': '${prefs.username}',
+        'credito': '${prefs.creditoRespaldo}',
+        'vivienda': '${prefs.vivienda}',
+        'atiende': '${prefs.atiende}',
+        'postura': '${prefs.postura}',
+        'conclucion': '${prefs.conclucion}',
+        'accion': '${prefs.accion}',
+        'latitud': '${prefs.latitude}',
+        'longitud': '${prefs.longitude}',
+        'hora_inicio': '${prefs.horaInicio}',
+        'hora_fin': '${prefs.horaFin}',
+        'foto': '${prefs.foto}',
+        'telefono': '${prefs.telefono}',
+        'email': '${prefs.email}',
+        'comentario': '${prefs.comentario}'
+      };
+      final response = await http.post(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'X-Request-With': 'XMLHhttpRequest',
+          'Authorization': 'Bearer ${prefs.token}'
+        },
+        body: body,
+      );
+      if (response.statusCode == 201) {
+        prefs.credito = "";
+        prefs.creditoRespaldo = "";
+        prefs.vivienda = "";
+        prefs.atiende = "";
+        prefs.postura = "";
+        prefs.conclucion = "";
+        prefs.accion = "";
+        prefs.latitude = 0.0;
+        prefs.longitude = 0.0;
+        prefs.horaInicio = "";
+        prefs.horaFin = "";
+        prefs.foto = "";
+
+        setState(() {
+          _circularProgress = false;
+        });
+        Navigator.pushReplacementNamed(context, HomePage.routName);
+      }
     }
   }
 
@@ -570,7 +619,10 @@ class _GestionPageState extends State<GestionPage> {
                   ),
                   Icon(Icons.account_circle,
                       color: Colors.cyan[300], size: 45.0),
-                  Text('${prefs.credito}',
+                  Text(
+                      (prefs.credito == 'Sin Credito Buscado')
+                          ? '${prefs.creditoRespaldo}'
+                          : '${prefs.credito}',
                       style: TextStyle(fontSize: 15.0, color: Colors.grey[700]))
                 ],
               ),
