@@ -10,13 +10,13 @@ class FindHelper {
   Future<dynamic> getCreditoZona() async {
     final prefs = new PreferenciasUsuario();
     String server = 'http://187.162.64.236:9090/api/auth';
-    String url = "$server/credito/zona/${prefs.zona}";
+    String url = "$server/guardar/gestiones?username=${prefs.username}";
     final response = await http.get(url, headers: {
       'Accept': 'application/json',
       'X-Request-With': 'XMLHhttpRequest',
       'Authorization': 'Bearer ${prefs.token}'
     });
     final data = json.decode(response.body);
-    return data.length.toString();
+    return data.toString();
   }
 }

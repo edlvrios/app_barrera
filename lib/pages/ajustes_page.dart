@@ -69,58 +69,6 @@ class _AjustesPageState extends State<AjustesPage> {
           Positioned(child: _cartaUltimaUbicacion(context), top: 300, left: 10),
           Positioned(child: _cartaUltimPagina(context), top: 450, left: 10),
           Positioned(child: _cartaTheme(context), top: 600, left: 10),
-          /*SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(40.0),
-                ),
-                Column(
-                  children: [
-                    Container(
-                      height: size.height * 0.15,
-                      margin:
-                          EdgeInsets.only(right: 10.0, left: 10.0, top: 15.0),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 30.0, vertical: 20.0),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          Color.fromRGBO(0, 198, 255, 1.0),
-                          Color.fromRGBO(0, 114, 255, 1.0),
-                        ]),
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      child: Column(
-                        children: [
-                          SwitchListTile(
-                            activeColor: Colors.green,
-                            inactiveTrackColor: Colors.red,
-                            inactiveThumbColor: Colors.red,
-                            value: _colorSeccundario,
-                            title: Text(
-                              'Light/Dark',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: (prefs.colorSecundario)
-                                      ? Colors.white
-                                      : Colors.white),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                _colorSeccundario = value;
-                                prefs.colorSecundario = value;
-                              });
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),*/
         ],
       ),
     );
@@ -264,7 +212,7 @@ class _AjustesPageState extends State<AjustesPage> {
                     margin: EdgeInsets.only(top: 70.0, left: 10.0),
                     child: Center(
                       child: Text(
-                        '${prefs.latitude} , ${prefs.longitude}',
+                        '${prefs.latitude}',
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                             color: Colors.blueGrey,

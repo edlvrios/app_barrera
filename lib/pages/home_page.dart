@@ -215,7 +215,7 @@ class _HomePageState extends State<HomePage> {
     final size = MediaQuery.of(context).size;
     return Container(
       width: size.width * 0.95,
-      height: size.height * 0.3,
+      height: size.height * 0.25,
       child: Stack(children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               margin: EdgeInsets.only(top: 25.0, left: 25.0),
               child: Text(
-                'CREDITOS EN TU ZONA',
+                'GESTIONES REALIZADAS',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                     color: Colors.lightBlueAccent[400],
@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   margin: EdgeInsets.only(top: 90.0, left: 120.0),
                   child: Icon(
-                    Icons.gps_fixed_outlined,
+                    Icons.assignment_turned_in,
                     color: Colors.blueGrey,
                     size: 40.0,
                   ),
@@ -278,40 +278,6 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-        Row(
-          children: [
-            Container(
-              width: size.width * 0.8,
-              margin: EdgeInsets.only(top: 145.0, left: 30.0),
-              child: RaisedButton(
-                color: Colors.transparent,
-                child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 90.0, vertical: 10.0),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromRGBO(0, 114, 255, 1.0),
-                        Color.fromRGBO(0, 198, 255, 1.0),
-                      ],
-                    ),
-                  ),
-                  child: Text(
-                    'Ver Creditos',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    ),
-                  ),
-                ),
-                elevation: 0.0,
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, ListaPage.routName);
-                },
-              ),
-            )
-          ],
-        )
       ]),
       decoration: BoxDecoration(
         color: Colors.white,

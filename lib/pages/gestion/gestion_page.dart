@@ -122,6 +122,8 @@ class _GestionPageState extends State<GestionPage> {
         prefs.horaInicio = "";
         prefs.horaFin = "";
         prefs.foto = "";
+        prefs.email = "";
+        prefs.telefono = "";
 
         setState(() {
           _circularProgress = false;
