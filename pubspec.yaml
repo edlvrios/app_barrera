@@ -37,6 +37,7 @@ dependencies:
   badges: ^1.2.0
   camera: ^0.5.7+2
   scoped_model: ^1.0.1
+  sqflite: ^2.0.0
   http: ^0.12.0+4
   path: ^1.7.0
 
