@@ -17,10 +17,11 @@ class _BusquedaPageState extends State<BusquedaPage> {
   //url image takepicture
   // ignore: avoid_init_to_null
   final prefs = new PreferenciasUsuario();
-  String _path = null;
+  //String _path = null;
   bool _circularProgress = false;
   final TextEditingController _creditoController = new TextEditingController();
 
+  // ignore: unused_element
   void _searchCredito() async {
     setState(() {
       _circularProgress = true;

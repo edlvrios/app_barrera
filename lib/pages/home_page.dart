@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:diseno_login/controller/findhelper.dart';
 import 'package:diseno_login/pages/ajustes_page.dart';
 import 'package:diseno_login/pages/busqueda_page.dart';
-import 'package:diseno_login/pages/lista_page.dart';
+//import 'package:diseno_login/pages/lista_page.dart';
 import 'package:diseno_login/pages/login_page.dart';
 import 'package:diseno_login/widgets/menu/menu_widget.dart';
 import 'package:flutter/material.dart';

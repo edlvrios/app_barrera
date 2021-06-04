@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AuthHelper {
-  String serverUrl = 'http://187.162.64.236:9090/api/auth';
+  String serverUrl = 'http://187.162.64.236:9090/dombarreraapi/api/auth';
   var status;
   var token;
   /*

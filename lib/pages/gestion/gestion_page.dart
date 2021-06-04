@@ -81,7 +81,8 @@ class _GestionPageState extends State<GestionPage> {
         time.minute.toString() +
         ":" +
         time.second.toString();
-    final url = 'http://187.162.64.236:9090/api/auth/guardar/gestion';
+    final url =
+        'http://187.162.64.236:9090/dombarreraapi/api/auth/guardar/gestion';
     if (prefs.credito != 'Sin Credito Buscado') {
       final body = {
         'usuario': '${prefs.username}',

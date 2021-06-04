@@ -8,7 +8,8 @@ class CreditoModel extends Model {
 
   void fetchCreditto() async {
     try {
-      final response = await http.get('http://187.162.64.236:9090/api/auth/');
+      final response =
+          await http.get('http://187.162.64.236:9090/dombarreraapi/api/auth/');
       if (response.statusCode == 200 || response.statusCode == 201) {
         print(response.body);
       }

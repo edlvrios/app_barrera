@@ -10,7 +10,7 @@ import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 // ignore: missing_return
 Future<List<Accion>> fetchAccion() async {
   final prefs = new PreferenciasUsuario();
-  final server = 'http://187.162.64.236:9090/api/auth/lista/';
+  final server = 'http://187.162.64.236:9090/dombarreraapi/api/auth/lista/';
   final url = server +
       'conclucion?vivienda=${prefs.vivienda}&postura=${prefs.postura}&conclucion=${prefs.conclucion}';
   final response = await http.get(url, headers: {

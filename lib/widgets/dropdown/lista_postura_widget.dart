@@ -11,7 +11,7 @@ import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 Future<List<Postura>> fetchAtiende() async {
   final prefs = new PreferenciasUsuario();
   final url =
-      'http://187.162.64.236:9090/api/auth/lista/postura?vivienda=${prefs.vivienda}&atiende=${prefs.atiende}';
+      'http://187.162.64.236:9090/dombarreraapi/api/auth/lista/postura?vivienda=${prefs.vivienda}&atiende=${prefs.atiende}';
   final response = await http.get(url, headers: {
     'Accept': 'application/json',
     'X-Request-With': 'XMLHhttpRequest',

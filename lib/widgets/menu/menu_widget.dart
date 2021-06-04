@@ -170,7 +170,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                       onTap: () async {
                         _circularProgress = true;
                         String uri =
-                            "http://187.162.64.236:9090/api/auth/logout";
+                            "http://187.162.64.236:9090/dombarreraapi/api/auth/logout";
                         var result = await http.get(uri, headers: {
                           'Accept': 'application/json',
                           'X-Request-With': 'XMLHhttpRequest',

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:diseno_login/pages/foto/foto_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+//import 'package:intl/intl.dart';
 import 'package:diseno_login/pages/lista_page.dart';
 //packetes de terceros
 import 'package:http/http.dart' as http;
@@ -13,7 +13,7 @@ import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 // ignore: missing_return
 Future<List<InfoCredito>> fetchInfoCredito() async {
   final prefs = new PreferenciasUsuario();
-  final url = 'http://187.162.64.236:9090/api/auth/credito/${prefs.credito}';
+  final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/credito/${prefs.credito}';
   final response = await http.get(url, headers: {
     'Accept': 'application/json',
     'X-Request-With': 'XMLHhttpRequest',
@@ -145,7 +145,7 @@ class _InfoPageState extends State<InfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final format = new NumberFormat.simpleCurrency();
+    //final format = new NumberFormat.simpleCurrency();
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,

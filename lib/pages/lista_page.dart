@@ -13,7 +13,8 @@ import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 // ignore: missing_return
 Future<List<Credito>> fetchCredito() async {
   final prefs = new PreferenciasUsuario();
-  final url = 'http://187.162.64.236:9090/api/auth/credito/zona/${prefs.zona}';
+  final url =
+      'http://187.162.64.236:9090/dombarreraapi/api/auth/credito/zona/${prefs.zona}';
   final response = await http.get(url, headers: {
     'Accept': 'application/json',
     'X-Request-With': 'XMLHhttpRequest',
