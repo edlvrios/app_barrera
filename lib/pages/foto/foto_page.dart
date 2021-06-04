@@ -36,7 +36,6 @@ class _CamaraPageState extends State<CamaraPage> {
     final imageConvert = File(result);
     imageConvert.writeAsBytesSync(decodedBytes);
     prefs.foto = base;
-    print(prefs.credito);
     setState(() {
       prefs.rutaFoto = result;
       prefs.foto = base;

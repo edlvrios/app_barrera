@@ -132,7 +132,6 @@ class _InfoPageState extends State<InfoPage> {
   @override
   void initState() {
     prefs.credito = widget.credito;
-    print(prefs.credito);
     super.initState();
     futureInfoCredito = fetchInfoCredito();
     final time = DateTime.now();

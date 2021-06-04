@@ -52,7 +52,6 @@ class _GestionPageState extends State<GestionPage> {
     prefs.respuestaNo = false;
     prefs.respuestaSi = false;
     _convertbasetofile();
-    print(prefs.creditoRespaldo);
   }
 
   void _convertbasetofile() {
@@ -158,7 +157,7 @@ class _GestionPageState extends State<GestionPage> {
         },
         body: body,
       );
-      if (response.statusCode == 201) {
+     if (response.statusCode == 201) {
         prefs.credito = "";
         prefs.creditoRespaldo = "";
         prefs.vivienda = "";
