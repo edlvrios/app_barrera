@@ -16,7 +16,6 @@ import 'package:diseno_login/pages/register_page.dart';
 
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 //Seervice
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:diseno_login/service/location_service.dart';
 import 'package:provider/provider.dart';
 
@@ -36,9 +35,6 @@ class MyApp extends StatelessWidget {
     );
     return MultiProvider(
       providers: [
-        StreamProvider<DataConnectionStatus>(create: (_) {
-          return DataConnectionChecker().onStatusChange;
-        }),
         StreamProvider<UserLocation>(create: (_) {
           return LocationService().locationStream;
         })

@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 _passwordController.text.trim(),
                 _zonaController.text.trim())
             .whenComplete(() {
-          if (authHelper.status) {
+          if (authHelper.status == true) {
             _showDialog('Error', 'Verifica Tu Email o Password', 'Cerrar');
           } else {
             Navigator.pushReplacementNamed(context, LoginPage.routName);

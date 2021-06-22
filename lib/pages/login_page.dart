@@ -45,7 +45,9 @@ class _LoginPageState extends State<LoginPage> {
             .loginData(_usernameController.text.trim(),
                 _passwordController.text.trim())
             .whenComplete(() {
-          if (authHelper.status) {
+          if (authHelper.status==true) {
+            _circularProgress = false;
+            Navigator.pushReplacementNamed(context, LoginPage.routName);
           } else {
             _circularProgress = false;
             Navigator.pushReplacementNamed(context, HomePage.routName);

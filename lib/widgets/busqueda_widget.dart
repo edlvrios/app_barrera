@@ -68,7 +68,6 @@ class _BusquedaWidgetState extends State<BusquedaWidget> {
                   controller: creditoController,
                   keyboardType: TextInputType.number,
                   maxLength: 10,
-                  maxLengthEnforced: true,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
                     filled: true,

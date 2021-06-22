@@ -93,6 +93,7 @@ class AuthHelper {
     final prefs = new PreferenciasUsuario();
     prefs.name = name;
     prefs.username = username;
+    print(status);
     if (status) {
       print('${data["error"]}');
     } else {

@@ -191,7 +191,7 @@ class _GestionPageState extends State<GestionPage> {
           actionsOverflowButtonSpacing: 0.5,
           title: Text("Capturaras algun Telefono o E-mail"),
           actions: [
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   setState(() {
                     extraData = false;
@@ -199,7 +199,7 @@ class _GestionPageState extends State<GestionPage> {
                   Navigator.pop(context, false);
                 },
                 child: Text('No')),
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   setState(() {
                     extraData = true;
