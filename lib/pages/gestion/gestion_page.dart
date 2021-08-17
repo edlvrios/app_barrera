@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:diseno_login/pages/busqueda_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:flutter/material.dart';
 //paketes propios
@@ -128,7 +129,8 @@ class _GestionPageState extends State<GestionPage> {
         setState(() {
           _circularProgress = false;
         });
-        Navigator.pushReplacementNamed(context, HomePage.routName);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            HomePage.routName, (Route<dynamic> route) => false);
       }
     } else {
       final body = {
@@ -157,7 +159,7 @@ class _GestionPageState extends State<GestionPage> {
         },
         body: body,
       );
-     if (response.statusCode == 201) {
+      if (response.statusCode == 201) {
         prefs.credito = "";
         prefs.creditoRespaldo = "";
         prefs.vivienda = "";
@@ -174,7 +176,9 @@ class _GestionPageState extends State<GestionPage> {
         setState(() {
           _circularProgress = false;
         });
-        Navigator.pushReplacementNamed(context, HomePage.routName);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            HomePage.routName, (Route<dynamic> route) => false);
+        //Navigator.pushAndRemoveUntil(context, Route(),(Route<dynamic> route)=>false);
       }
     }
   }
@@ -236,7 +240,6 @@ class _GestionPageState extends State<GestionPage> {
                       : FloatingActionButton(
                           onPressed: () {
                             _dialog(context);
-                            //_saveGestion();
                           },
                           child: const Icon(Icons.mail_outline),
                           backgroundColor: Colors.cyan[600],

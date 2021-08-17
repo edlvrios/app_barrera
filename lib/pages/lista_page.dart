@@ -117,6 +117,7 @@ class _ListaPageState extends State<ListaPage> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
+          automaticallyImplyLeading: false,
           backgroundColor: (prefs.colorSecundario == false)
               ? Colors.blue
               : Color.fromRGBO(52, 73, 94, 1.0),

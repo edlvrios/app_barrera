@@ -62,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
     prefs.ultimaPagina = LoginPage.routName;
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0.0,
           backgroundColor: (prefs.colorSecundario == false)
               ? Colors.white

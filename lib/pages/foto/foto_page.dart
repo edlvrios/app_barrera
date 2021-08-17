@@ -45,11 +45,9 @@ class _CamaraPageState extends State<CamaraPage> {
       prefs.conclucion = '';
       prefs.accion = '';
       imageFinal = imageConvert;
-      Navigator.push(
+      Navigator.pushReplacementNamed(
         context,
-        MaterialPageRoute(
-          builder: (context) => GestionPage(),
-        ),
+        GestionPage.routName,
       );
     });
   }
