@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:diseno_login/pages/busqueda_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:flutter/material.dart';
 //paketes propios
@@ -10,7 +9,6 @@ import 'package:diseno_login/widgets/dropdown/lista_atiende_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_conclucion_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_postura_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_vivienda_widget.dart';
-import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
 //packetes de terceros
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart';
@@ -221,9 +219,7 @@ class _GestionPageState extends State<GestionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: (prefs.colorSecundario == false)
-          ? Colors.blue
-          : Color.fromRGBO(52, 73, 94, 1.0),
+      backgroundColor: Colors.blueGrey,
       floatingActionButton: (prefs.vivienda != '' &&
               prefs.atiende != '' &&
               prefs.postura != '' &&
@@ -232,7 +228,7 @@ class _GestionPageState extends State<GestionPage> {
           ? Badge(
               position: BadgePosition.topStart(start: 30, top: -10.0),
               badgeContent: Text("1"),
-              badgeColor: Colors.greenAccent,
+              badgeColor: Colors.lime[300],
               child: (extraData == true)
                   ? Text('')
                   : (prefs.respuestaSi == true)
@@ -242,7 +238,7 @@ class _GestionPageState extends State<GestionPage> {
                             _dialog(context);
                           },
                           child: const Icon(Icons.mail_outline),
-                          backgroundColor: Colors.cyan[600],
+                          backgroundColor: Colors.blueGrey[300],
                         ),
             )
           : Text(''),
@@ -251,31 +247,32 @@ class _GestionPageState extends State<GestionPage> {
           children: [
             _crearImagen(context),
             _crearTitulo(),
-            SizedBox(height: 0.0),
-            PosicionWidget(),
-            SizedBox(height: 0.5),
             _listaVivienda(),
-            SizedBox(height: 0.5),
             _listaAtiende(),
-            SizedBox(height: 0.5),
             _listaPostura(),
-            SizedBox(height: 0.5),
             _listaConclucion(),
-            SizedBox(height: 0.5),
             _listaAccion(),
-            SizedBox(height: 1.5),
             (prefs.respuestaSi == true && prefs.respuestaNo == false)
                 ? _inputTelefono(context)
                 : Text(""),
-            SizedBox(height: 1.0),
             (prefs.respuestaSi == true && prefs.respuestaNo == false)
                 ? _inputEmail(context)
                 : Text(""),
-            SizedBox(height: 1.0),
-            _inputComentario(context),
-            SizedBox(height: 1.0),
-            _crearBoton(context),
-            SizedBox(height: 1.0),
+            (prefs.vivienda != '' &&
+                    prefs.atiende != '' &&
+                    prefs.postura != '' &&
+                    prefs.conclucion != "" &&
+                    prefs.accion != '')
+                ? _inputComentario(context)
+                : Text(''),
+            (prefs.vivienda != '' &&
+                    prefs.atiende != '' &&
+                    prefs.postura != '' &&
+                    prefs.conclucion != "" &&
+                    prefs.accion != '')
+                ? _crearBoton(context)
+                : Text(""),
+            SizedBox(height: 0.0),
           ],
         ),
       ),
@@ -284,7 +281,7 @@ class _GestionPageState extends State<GestionPage> {
 
   Widget _inputTelefono(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
+      margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
@@ -310,11 +307,11 @@ class _GestionPageState extends State<GestionPage> {
               ),
               suffixIcon: Icon(
                 Icons.add_ic_call,
-                color: Colors.cyan[300],
+                color: Colors.blueGrey[300],
               ),
               icon: Icon(
                 Icons.phone,
-                color: Colors.cyan[300],
+                color: Colors.blueGrey[300],
               ),
             ),
           ),
@@ -325,19 +322,17 @@ class _GestionPageState extends State<GestionPage> {
 
   Widget _inputEmail(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
+      margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10.5),
           Text("Correro Electronico",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w800)),
-          SizedBox(height: 10.5),
           TextField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
@@ -351,11 +346,11 @@ class _GestionPageState extends State<GestionPage> {
               ),
               suffixIcon: Icon(
                 Icons.alternate_email,
-                color: Colors.cyan[300],
+                color: Colors.blueGrey[300],
               ),
               icon: Icon(
                 Icons.mark_email_read,
-                color: Colors.cyan[300],
+                color: Colors.blueGrey[300],
               ),
             ),
           ),
@@ -366,13 +361,13 @@ class _GestionPageState extends State<GestionPage> {
 
   Widget _inputComentario(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      margin: EdgeInsets.only(top: 0.0, bottom: 0.5),
+      padding: EdgeInsets.symmetric(horizontal: 5.0),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10.5),
+          SizedBox(height: 5.0),
           Text("Comentario de Gestion",
               style: TextStyle(
                   color: Colors.black,
@@ -384,19 +379,20 @@ class _GestionPageState extends State<GestionPage> {
             keyboardType: TextInputType.text,
             maxLength: 100,
             decoration: InputDecoration(
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
               hintText: 'Comentario',
               hintStyle: TextStyle(
                 color: Colors.black,
               ),
               suffixIcon: Icon(
                 Icons.edit,
-                color: Colors.cyan[300],
+                color: Colors.blueGrey[300],
               ),
               icon: Icon(
                 Icons.post_add,
-                color: Colors.cyan[300],
+                color: Colors.blueGrey[300],
               ),
             ),
           ),
@@ -425,30 +421,50 @@ class _GestionPageState extends State<GestionPage> {
     return Container(
       child: Column(children: [
         Container(
-          decoration: BoxDecoration(color: Colors.white),
-          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          decoration: BoxDecoration(
+              color:
+                  (prefs.vivienda == '') ? Colors.red[300] : Colors.green[300]),
+          margin: EdgeInsets.only(
+            top: 5.0,
+            left: 0.0,
+            right: 0.0,
+          ),
           child: ListTile(
             leading: Icon(
               Icons.apartment,
-              color: Colors.cyan[300],
+              color: Colors.white,
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
-            title: Text('Tipo de Vivienda'),
+            trailing: Icon(
+              (prefs.vivienda == '') ? Icons.keyboard_arrow_right : Icons.check,
+              color: Colors.white,
+            ),
+            title: Text(
+              'Tipo de Vivienda',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             subtitle: (prefs.vivienda == '')
                 ? Text('Selecciona el tipo de Vivienda')
-                : Text("${prefs.vivienda}",
+                : Text(
+                    "${prefs.vivienda}",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w800)),
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    ),
+                  ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListaVivienda(),
-                ),
-              );
+              if (prefs.vivienda == '') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListaVivienda(),
+                  ),
+                );
+              } else {}
             },
           ),
         )
@@ -460,30 +476,56 @@ class _GestionPageState extends State<GestionPage> {
     return Container(
       child: Column(children: [
         Container(
-          decoration: BoxDecoration(color: Colors.white),
-          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          decoration: BoxDecoration(
+            color: (prefs.atiende == '') ? Colors.red[300] : Colors.green[300],
+          ),
+          margin: EdgeInsets.only(
+            top: 5.0,
+            left: 0.0,
+            right: 0.0,
+          ),
           child: ListTile(
             leading: Icon(
               Icons.record_voice_over,
-              color: Colors.cyan[300],
+              color: Colors.white,
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
-            title: Text('Quien de Atiende'),
+            trailing: Icon(
+              (prefs.atiende == '') ? Icons.keyboard_arrow_right : Icons.check,
+              color: Colors.white,
+            ),
+            title: Text(
+              '¿Quien Atiende?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             subtitle: (prefs.atiende == '')
-                ? Text('Selecciona Quien Atiende')
+                ? Text(
+                    'Selecciona Quien Atiende',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    ),
+                  )
                 : Text("${prefs.atiende}",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w800)),
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    )),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListaAtiende(vivienda: widget.vivienda),
-                ),
-              );
+              if (prefs.atiende == '') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListaAtiende(
+                      vivienda: widget.vivienda,
+                    ),
+                  ),
+                );
+              } else {}
             },
           ),
         )
@@ -495,31 +537,57 @@ class _GestionPageState extends State<GestionPage> {
     return Container(
       child: Column(children: [
         Container(
-          decoration: BoxDecoration(color: Colors.white),
-          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          decoration: BoxDecoration(
+              color:
+                  (prefs.postura == '') ? Colors.red[300] : Colors.green[300]),
+          margin: EdgeInsets.only(
+            top: 5.0,
+            left: 0.0,
+            right: 0.0,
+          ),
           child: ListTile(
             leading: Icon(
               Icons.psychology,
-              color: Colors.cyan[300],
+              color: Colors.white,
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
-            title: Text('Quien Postura Tiene'),
+            trailing: Icon(
+              (prefs.postura == '') ? Icons.keyboard_arrow_right : Icons.check,
+              color: Colors.white,
+            ),
+            title: Text(
+              '¿Que Postura Tiene?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             subtitle: (prefs.postura == '')
-                ? Text('Selecciona Que Postura Tiene')
+                ? Text(
+                    'Selecciona Que Postura Tiene',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    ),
+                  )
                 : Text("${prefs.postura}",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w800)),
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    )),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListaPostura(
-                      vivienda: widget.vivienda, atiende: widget.atiende),
-                ),
-              );
+              if (prefs.postura == '') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListaPostura(
+                      vivienda: widget.vivienda,
+                      atiende: widget.atiende,
+                    ),
+                  ),
+                );
+              } else {}
             },
           ),
         )
@@ -531,31 +599,60 @@ class _GestionPageState extends State<GestionPage> {
     return Container(
       child: Column(children: [
         Container(
-          decoration: BoxDecoration(color: Colors.white),
-          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          decoration: BoxDecoration(
+              color: (prefs.conclucion == '')
+                  ? Colors.red[300]
+                  : Colors.green[300]),
+          margin: EdgeInsets.only(
+            top: 5.0,
+            left: 0.0,
+            right: 0.0,
+          ),
           child: ListTile(
             leading: Icon(
               Icons.emoji_people,
-              color: Colors.cyan[300],
+              color: Colors.white,
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
-            title: Text('Quien Conclucion Obtuvo'),
+            trailing: Icon(
+              (prefs.conclucion == '')
+                  ? Icons.keyboard_arrow_right
+                  : Icons.check,
+              color: Colors.white,
+            ),
+            title: Text(
+              '¿Que Conclucion Obtuviste?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             subtitle: (prefs.conclucion == '')
-                ? Text('Selecciona Que Conclucion Obtuvo')
+                ? Text(
+                    'Selecciona Que Conclucion Obtuvo',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    ),
+                  )
                 : Text("${prefs.conclucion}",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w800)),
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    )),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListaConclucion(
-                      vivienda: widget.vivienda, postura: widget.postura),
-                ),
-              );
+              if (prefs.conclucion == '') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListaConclucion(
+                      vivienda: widget.vivienda,
+                      postura: widget.postura,
+                    ),
+                  ),
+                );
+              } else {}
             },
           ),
         )
@@ -567,34 +664,58 @@ class _GestionPageState extends State<GestionPage> {
     return Container(
       child: Column(children: [
         Container(
-          decoration: BoxDecoration(color: Colors.white),
-          margin: EdgeInsets.only(top: 15.0, left: 0.0, right: 0.0),
+          decoration: BoxDecoration(
+              color:
+                  (prefs.accion == '') ? Colors.red[300] : Colors.green[300]),
+          margin: EdgeInsets.only(
+            top: 5.0,
+            left: 0.0,
+            right: 0.0,
+          ),
           child: ListTile(
             leading: Icon(
               Icons.check_circle_outline,
-              color: Colors.cyan[300],
+              color: Colors.white,
               size: 45.0,
             ),
-            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.cyan[300]),
-            title: Text('Quien Accion Obtuvo'),
-            subtitle: (prefs.conclucion == '')
-                ? Text('Selecciona Que Accion Obtuvo')
+            trailing: Icon(
+              (prefs.accion == '') ? Icons.keyboard_arrow_right : Icons.check,
+              color: Colors.white,
+            ),
+            title: Text(
+              '¿Que Accion Se Obtuvo?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            subtitle: (prefs.accion == '')
+                ? Text(
+                    'Selecciona Que Accion Obtuvo',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    ),
+                  )
                 : Text("${prefs.accion}",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w800)),
+                      color: Colors.white,
+                      fontSize: 14.0,
+                    )),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ListaAccion(
-                    vivienda: widget.vivienda,
-                    postura: widget.postura,
-                    conclucion: widget.conclucion,
+              if (prefs.accion == '') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListaAccion(
+                      vivienda: widget.vivienda,
+                      postura: widget.postura,
+                      conclucion: widget.conclucion,
+                    ),
                   ),
-                ),
-              );
+                );
+              } else {}
             },
           ),
         )
@@ -611,24 +732,35 @@ class _GestionPageState extends State<GestionPage> {
                 color: Colors.white,
               ),
               padding: EdgeInsets.only(
-                  left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
+                left: 30.0,
+                right: 30.0,
+                top: 5.0,
+                bottom: 30.0,
+              ),
               child: Row(
                 children: <Widget>[
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('Gestion', style: estiloTitulo),
+                        Text('Credito Gestionado', style: estiloTitulo),
                       ],
                     ),
                   ),
-                  Icon(Icons.account_circle,
-                      color: Colors.cyan[300], size: 45.0),
+                  Icon(
+                    Icons.account_circle,
+                    color: Colors.blueGrey[300],
+                    size: 45.0,
+                  ),
                   Text(
-                      (prefs.credito == 'Sin Credito Buscado')
-                          ? '${prefs.creditoRespaldo}'
-                          : '${prefs.credito}',
-                      style: TextStyle(fontSize: 15.0, color: Colors.grey[700]))
+                    (prefs.credito == 'Sin Credito Buscado')
+                        ? '${prefs.creditoRespaldo}'
+                        : '${prefs.credito}',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.grey[700],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -639,29 +771,20 @@ class _GestionPageState extends State<GestionPage> {
     return _circularProgress == true
         ? CircularProgressIndicator(
             strokeWidth: 2,
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blueGrey,
           )
-        : RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 140.0, vertical: 15.0),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.greenAccent,
-                    Colors.cyan[300],
-                  ],
-                ),
+        : Container(
+            width: 300.0,
+            child: ElevatedButton(
+              onPressed: _saveGestion,
+              child: Text('Guardar'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blueGrey[900],
+                onPrimary: Colors.white,
+                onSurface: Colors.grey,
+                elevation: 3.0,
               ),
-              child: Text('Guardar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  )),
             ),
-            elevation: 3.0,
-            onPressed: _saveGestion,
           );
   }
 }

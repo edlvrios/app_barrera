@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             .loginData(_usernameController.text.trim(),
                 _passwordController.text.trim())
             .whenComplete(() {
-          if (authHelper.status==true) {
+          if (authHelper.status == true) {
             _circularProgress = false;
             Navigator.pushReplacementNamed(context, LoginPage.routName);
           } else {
@@ -198,9 +198,9 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(0.0),
           ),
           focusedBorder: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(30.0),
-              borderSide: BorderSide(color: Colors.grey[400]),
-              gapPadding: 4.0),
+            borderSide: BorderSide(color: Colors.lime[700]),
+            gapPadding: 4.0,
+          ),
           hintText: 'Usuario',
           hintStyle: TextStyle(
             color: (prefs.colorSecundario == false)
@@ -209,11 +209,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
           suffixIcon: Icon(
             Icons.done_outline,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
           icon: Icon(
             Icons.account_box_outlined,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
         ),
       ),
@@ -232,20 +232,22 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(0.0),
             ),
             focusedBorder: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.grey[400]),
-                gapPadding: 4.0),
+              borderSide: BorderSide(color: Colors.lime[700]),
+              gapPadding: 4.0,
+            ),
             hintText: 'Password',
             hintStyle: TextStyle(
               color: (prefs.colorSecundario == false)
                   ? Colors.grey[600]
                   : Colors.white,
             ),
-            suffixIcon:
-                Icon(Icons.done_outline, color: Colors.lightBlueAccent[400]),
+            suffixIcon: Icon(
+              Icons.done_outline,
+              color: Colors.blueGrey[400],
+            ),
             icon: Icon(
               Icons.lock_open_outlined,
-              color: Colors.lightBlueAccent[400],
+              color: Colors.blueGrey[400],
             )),
       ),
     );
@@ -256,55 +258,36 @@ class _LoginPageState extends State<LoginPage> {
         ? CircularProgressIndicator(
             strokeWidth: 2,
           )
-        : RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 125.0, vertical: 15.0),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromRGBO(0, 114, 255, 1.0),
-                    Color.fromRGBO(0, 198, 255, 1.0),
-                  ],
-                ),
+        : Container(
+            width: 300.0,
+            height: 50.0,
+            child: ElevatedButton(
+              onPressed: _onPressed,
+              child: Text('Ingresar'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blueGrey[900],
+                onPrimary: Colors.white,
+                onSurface: Colors.grey,
+                elevation: 3.0,
               ),
-              child: Text('Ingresar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  )),
             ),
-            elevation: 2.0,
-            onPressed: _onPressed,
           );
   }
 
   Widget _crearBotonRegistro(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-      child: FlatButton(
-        padding: EdgeInsets.symmetric(horizontal: 110.0, vertical: 15.0),
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, RegisterPage.routName);
-        },
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: Colors.blueAccent[400],
-              width: 2,
-              style: BorderStyle.solid),
-        ),
-        child: Text(
-          'Registrarse',
-          style: TextStyle(
-              color: (prefs.colorSecundario == false)
-                  ? Colors.blueAccent[400]
-                  : Colors.white,
-              fontSize: 20.0,
-              letterSpacing: 0.8,
-              fontWeight: FontWeight.w400),
-        ),
-      ),
-    );
+        width: 300.0,
+        height: 50.0,
+        padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+        child: TextButton(
+          child: Text("Registrar"),
+          style: TextButton.styleFrom(
+            primary: Colors.blueGrey[300],
+            side: BorderSide(color: Colors.blueGrey[700]),
+          ),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, RegisterPage.routName);
+          },
+        ));
   }
 }

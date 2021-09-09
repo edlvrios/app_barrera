@@ -24,6 +24,8 @@ class _BusquedaPageState extends State<BusquedaPage> {
   // ignore: unused_element
   void _searchCredito() async {
     setState(() {
+      prefs.responseCode = 0;
+      print(prefs.responseCode);
       _circularProgress = true;
     });
     if (_creditoController.text.isNotEmpty) {
@@ -41,9 +43,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: (prefs.colorSecundario == false)
-            ? Colors.blue
-            : Color.fromRGBO(52, 73, 94, 1.0),
+        backgroundColor: Colors.blueGrey,
         elevation: 0.0,
         actions: [
           Builder(
@@ -86,9 +86,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
       width: double.infinity,
       height: size.height * 0.4,
       decoration: BoxDecoration(
-        color: (prefs.colorSecundario == false)
-            ? Colors.blue
-            : Color.fromRGBO(52, 73, 94, 1.0),
+        color: Colors.blueGrey,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -135,7 +133,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
                   'Busqueda de Credito',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
-                      color: Colors.lightBlueAccent[400],
+                      color: Colors.blueGrey[500],
                       fontSize: 18.0,
                       fontWeight: FontWeight.w800),
                 ),
@@ -145,7 +143,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
         ),
         Container(
           padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 80.0),
-          child: TextField(
+          child: TextFormField(
             controller: _creditoController,
             keyboardType: TextInputType.phone,
             maxLength: 10,
@@ -155,7 +153,6 @@ class _BusquedaPageState extends State<BusquedaPage> {
                 borderSide: BorderSide(color: Colors.grey[300]),
               ),
               focusedBorder: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
                   borderSide: BorderSide(color: Colors.grey[400]),
                   gapPadding: 4.0),
               hintText: 'Credito',
@@ -164,7 +161,7 @@ class _BusquedaPageState extends State<BusquedaPage> {
               ),
               suffixIcon: Icon(
                 Icons.add_ic_call,
-                color: Colors.cyan[300],
+                color: Colors.blueGrey[300],
               ),
             ),
           ),
@@ -192,26 +189,15 @@ class _BusquedaPageState extends State<BusquedaPage> {
           )
         : Container(
             padding: EdgeInsets.only(top: 150.0, left: 100.0),
-            child: RaisedButton(
-              padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.greenAccent,
-                      Colors.cyan[300],
-                    ],
-                  ),
-                ),
-                child: Text('Buscar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                    )),
+            width: 250.0,
+            child: ElevatedButton(
+              child: Text('Buscar'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blueGrey,
+                onPrimary: Colors.white,
+                onSurface: Colors.grey,
+                elevation: 0.0,
               ),
-              elevation: 3.0,
               onPressed: () {
                 if (_creditoController.text.isNotEmpty) {
                   setState(() {
@@ -227,7 +213,6 @@ class _BusquedaPageState extends State<BusquedaPage> {
                   );
                 }
               },
-            ),
-          );
+            ));
   }
 }

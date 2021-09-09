@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         initialRoute: prefs.ultimaPagina,
         theme: ThemeData(
             floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.blueGrey,
         )),
         routes: {
           LoginPage.routName: (BuildContext context) => LoginPage(),

@@ -28,31 +28,28 @@ class _MenuWidgetState extends State<MenuWidget> {
     final size = MediaQuery.of(context).size;
     return Drawer(
       child: Container(
-        decoration: BoxDecoration(
-            color: (prefs.colorSecundario == false)
-                ? Colors.blue
-                : Color.fromRGBO(52, 73, 94, 1.0)),
+        decoration: BoxDecoration(color: Colors.blueGrey),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: Color.fromRGBO(0, 114, 255, 1.0),
+                    backgroundColor: Colors.blueGrey[900],
                   ),
                   title: Text(
                     "${prefs.name}",
                     style: TextStyle(
-                        color: Colors.lightBlueAccent[400],
+                        color: Colors.blueGrey[400],
                         fontSize: 22.0,
                         fontWeight: FontWeight.w800),
                   ),
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.grey[100],
                 )),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsets.only(top: 20.0),
               height: 80.0,
               child: ListTile(
                 leading: FittedBox(
@@ -83,7 +80,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                     heroTag: 'btnm2',
                     child: Icon(Icons.search),
                     elevation: 0.0,
-                    backgroundColor: Colors.lightBlue[900],
+                    backgroundColor: Colors.blueGrey[900],
                     onPressed: () {},
                   ),
                 ),

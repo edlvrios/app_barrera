@@ -213,4 +213,12 @@ class PreferenciasUsuario {
   set respuestaNo(bool value) {
     _prefs.setBool('respuestaNo', value);
   }
+
+  get responseCode {
+    return _prefs.getInt('responseCode') ?? 0;
+  }
+
+  set responseCode(int value) {
+    _prefs.setInt('responseCode', value);
+  }
 }

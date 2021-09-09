@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     prefs.ultimaPagina = HomePage.routName;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: (prefs.colorSecundario == false)
-          ? Colors.blue
+          ? Colors.blueGrey
           : Color.fromRGBO(52, 73, 94, 1.0), // navigation bar color
     ));
     return Scaffold(
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: (prefs.colorSecundario == false)
-            ? Colors.blue
+            ? Colors.blueGrey
             : Color.fromRGBO(52, 73, 94, 1.0),
         actions: [
           Builder(
@@ -102,9 +102,7 @@ class _HomePageState extends State<HomePage> {
       width: double.infinity,
       height: size.height * 0.4,
       decoration: BoxDecoration(
-        color: (prefs.colorSecundario == false)
-            ? Colors.blue
-            : Color.fromRGBO(52, 73, 94, 1.0),
+        color: Colors.blueGrey,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -123,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                       heroTag: 'btn4',
                       child: Icon(Icons.search),
                       elevation: 0.0,
-                      backgroundColor: Colors.lightBlue[900],
+                      backgroundColor: Colors.blueGrey[900],
                       onPressed: () {
                         Navigator.pushReplacementNamed(
                             context, BusquedaPage.routName);
@@ -225,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                 'GESTIONES REALIZADAS',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                    color: Colors.lightBlueAccent[400],
+                    color: Colors.blueGrey[400],
                     fontSize: 16.0,
                     fontWeight: FontWeight.w800),
               ),
@@ -260,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                             snapshot.data,
                             textAlign: TextAlign.justify,
                             style: TextStyle(
-                                color: Colors.lightBlueAccent[400],
+                                color: Colors.blueGrey[400],
                                 fontSize: 35.0,
                                 fontWeight: FontWeight.w800),
                           ),

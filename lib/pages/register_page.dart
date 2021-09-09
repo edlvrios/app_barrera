@@ -55,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ? Colors.white
             : Color.fromRGBO(52, 73, 94, 1.0),
         leading: IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.lightBlueAccent[400]),
+          icon: new Icon(Icons.arrow_back, color: Colors.blueGrey[400]),
           onPressed: () =>
               Navigator.pushReplacementNamed(context, LoginPage.routName),
         ),
@@ -155,9 +155,9 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
           focusedBorder: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(30.0),
-              borderSide: BorderSide(color: Colors.grey[400]),
-              gapPadding: 4.0),
+            borderSide: BorderSide(color: Colors.lime[700]),
+            gapPadding: 4.0,
+          ),
           hintText: 'Nombre Completo',
           hintStyle: TextStyle(
             color: (prefs.colorSecundario == false)
@@ -166,11 +166,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           suffixIcon: Icon(
             Icons.done_outline,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
           icon: Icon(
             Icons.face,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
         ),
       ),
@@ -189,9 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
             borderRadius: BorderRadius.circular(0.0),
           ),
           focusedBorder: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(30.0),
-              borderSide: BorderSide(color: Colors.grey[400]),
-              gapPadding: 4.0),
+              borderSide: BorderSide(color: Colors.lime[700]), gapPadding: 4.0),
           hintText: 'Estado Donde Vives',
           hintStyle: TextStyle(
             color: (prefs.colorSecundario == false)
@@ -200,11 +198,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           suffixIcon: Icon(
             Icons.done_outline,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
           icon: Icon(
             Icons.my_location,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
         ),
       ),
@@ -223,9 +221,9 @@ class _RegisterPageState extends State<RegisterPage> {
             borderRadius: BorderRadius.circular(0.0),
           ),
           focusedBorder: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(30.0),
-              borderSide: BorderSide(color: Colors.grey[400]),
-              gapPadding: 4.0),
+            borderSide: BorderSide(color: Colors.lime[700]),
+            gapPadding: 4.0,
+          ),
           hintText: 'Usuario',
           hintStyle: TextStyle(
             color: (prefs.colorSecundario == false)
@@ -234,11 +232,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           suffixIcon: Icon(
             Icons.done_outline,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
           icon: Icon(
             Icons.account_box_outlined,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
         ),
       ),
@@ -257,9 +255,9 @@ class _RegisterPageState extends State<RegisterPage> {
             borderRadius: BorderRadius.circular(0.0),
           ),
           focusedBorder: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(30.0),
-              borderSide: BorderSide(color: Colors.grey[400]),
-              gapPadding: 4.0),
+            borderSide: BorderSide(color: Colors.lime[700]),
+            gapPadding: 4.0,
+          ),
           hintText: 'Email',
           hintStyle: TextStyle(
             color: (prefs.colorSecundario == false)
@@ -268,11 +266,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           suffixIcon: Icon(
             Icons.done_outline,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
           icon: Icon(
             Icons.alternate_email,
-            color: Colors.lightBlueAccent[400],
+            color: Colors.blueGrey[400],
           ),
         ),
       ),
@@ -291,20 +289,22 @@ class _RegisterPageState extends State<RegisterPage> {
               borderRadius: BorderRadius.circular(0.0),
             ),
             focusedBorder: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.grey[400]),
-                gapPadding: 4.0),
+              borderSide: BorderSide(color: Colors.lime[700]),
+              gapPadding: 4.0,
+            ),
             hintText: 'Password',
             hintStyle: TextStyle(
               color: (prefs.colorSecundario == false)
                   ? Colors.grey[600]
                   : Colors.white,
             ),
-            suffixIcon:
-                Icon(Icons.done_outline, color: Colors.lightBlueAccent[400]),
+            suffixIcon: Icon(
+              Icons.done_outline,
+              color: Colors.blueGrey[400],
+            ),
             icon: Icon(
               Icons.lock,
-              color: Colors.lightBlueAccent[400],
+              color: Colors.blueGrey[400],
             )),
       ),
     );
@@ -315,30 +315,20 @@ class _RegisterPageState extends State<RegisterPage> {
         ? CircularProgressIndicator(
             strokeWidth: 2,
           )
-        : RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 125.0, vertical: 15.0),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromRGBO(0, 114, 255, 1.0),
-                    Color.fromRGBO(0, 198, 255, 1.0),
-                  ],
-                ),
-              ),
-              child: Text(
-                'Registrar',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
+        : Container(
+            width: 300.0,
+            child: ElevatedButton(
+              onPressed: () {
+                _onPressed();
+              },
+              child: Text('Registrar'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blueGrey[900],
+                onPrimary: Colors.white,
+                onSurface: Colors.grey,
+                elevation: 3.0,
               ),
             ),
-            elevation: 2.0,
-            onPressed: () {
-              _onPressed();
-            },
           );
   }
 
@@ -350,13 +340,11 @@ class _RegisterPageState extends State<RegisterPage> {
           title: new Text(title),
           content: new Text(content),
           actions: <Widget>[
-            new RaisedButton(
-              child: new Text(
-                textButton,
-              ),
+            new ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              child: Text(textButton),
             ),
           ],
         );
