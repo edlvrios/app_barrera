@@ -221,4 +221,20 @@ class PreferenciasUsuario {
   set responseCode(int value) {
     _prefs.setInt('responseCode', value);
   }
+
+  get fakeGps {
+    return _prefs.getBool('fakeGps') ?? false;
+  }
+
+  set fakeGps(bool value) {
+    _prefs.setBool('fakeGps', value);
+  }
+
+  get nameFakeApp {
+    return _prefs.getString('nameFakeApp') ?? '';
+  }
+
+  set nameFakeApp(String value){
+    _prefs.setString('nameFakeApp', value);
+  }
 }

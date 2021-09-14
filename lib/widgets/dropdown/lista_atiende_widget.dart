@@ -72,9 +72,7 @@ class _ListaAtiendeState extends State<ListaAtiende> {
         appBar: AppBar(
           elevation: 0.0,
           automaticallyImplyLeading: false,
-          backgroundColor: (prefs.colorSecundario == false)
-              ? Colors.blue
-              : Color.fromRGBO(52, 73, 94, 1.0),
+          backgroundColor: Colors.blueGrey,
           leading: IconButton(
               icon: new Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => print('')),
@@ -83,9 +81,7 @@ class _ListaAtiendeState extends State<ListaAtiende> {
             style: TextStyle(fontSize: 24.0),
           ),
         ),
-        backgroundColor: (prefs.colorSecundario == false)
-            ? Colors.blue
-            : Color.fromRGBO(52, 73, 94, 1.0),
+        backgroundColor: Colors.blueGrey,
         body: Center(
           child: FutureBuilder<List<Atiende>>(
             future: futureAtiende,
@@ -103,9 +99,9 @@ class _ListaAtiendeState extends State<ListaAtiende> {
                               top: 15.0, left: 10.0, right: 10.0),
                           child: ListTile(
                             leading:
-                                Icon(Icons.people, color: Colors.cyan[600]),
+                                Icon(Icons.people, color: Colors.blueGrey[600]),
                             trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.cyan[600]),
+                                color: Colors.blueGrey[600]),
                             title: Text(data[index].nombre,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -134,9 +130,7 @@ class _ListaAtiendeState extends State<ListaAtiende> {
               return LinearProgressIndicator(
                 backgroundColor: Colors.white,
                 valueColor: AlwaysStoppedAnimation(
-                  (prefs.colorSecundario == false)
-                      ? Colors.blue
-                      : Color.fromRGBO(52, 73, 94, 1.0),
+                  Colors.lime[700],
                 ),
               );
             },

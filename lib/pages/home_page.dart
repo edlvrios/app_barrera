@@ -7,6 +7,9 @@ import 'package:diseno_login/widgets/menu/menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:flutter_package_manager/flutter_package_manager.dart';
+
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,11 +32,111 @@ class _HomePageState extends State<HomePage> {
   // ignore: must_call_super
   void initState() {
     read();
+    getPackageInfo();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  // ignore: missing_return
+  Future<PackageInfo> getPackageInfo() async {
+    List apps = await FlutterPackageManager.getUserInstalledPackages();
+    for (var app in apps) {
+      if (app == 'com.lexa.fakegps') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.lexa.fakegps';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          print(response.statusCode);
+          prefs.nameFakeApp = '';
+        }
+      } else if (app == 'com.blogspot.newapphorizons.fakegps') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.blogspot.newapphorizons.fakegps';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          print(response.statusCode);
+          prefs.nameFakeApp = '';
+        }
+      } else if (app == 'com.rosteam.gpsemulator') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.rosteam.gpsemulator';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          print(response.statusCode);
+          prefs.nameFakeApp = '';
+        }
+      } else if (app == 'com.incorporateapps.fakegps.fre') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.incorporateapps.fakegps.fre';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          prefs.nameFakeApp = '';
+        }
+      }
+    }
   }
 
   FindHelper find = new FindHelper();
@@ -77,22 +180,32 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: MenuWidget(),
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: size.height,
-            decoration: BoxDecoration(
-                color: (prefs.colorSecundario == false)
-                    ? Colors.white
-                    : Color.fromRGBO(52, 73, 94, 1.0)),
-          ),
-          Positioned(
-            child: _contenedorAccesoRapido(),
-          ),
-          Positioned(child: _cartaBusquedaRapida(context), top: 240, left: 10)
-        ],
-      ),
+      body: (prefs.fakeGps)
+          ? AlertDialog(
+              title: const Text('Atencion '),
+              scrollable: true,
+              content: const Text(
+                'Detectamos que estas inflingiendo en las normas de trabajo de Bufete Jurídico Barrera Badillo S.C. al instalar Apps que modifican tu ubicación, Comunicate con tu supervisor para que te indique los pasos a seguir',
+                textAlign: TextAlign.justify,
+              ),
+            )
+          : Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: size.height,
+                  decoration: BoxDecoration(
+                      color: (prefs.colorSecundario == false)
+                          ? Colors.white
+                          : Color.fromRGBO(52, 73, 94, 1.0)),
+                ),
+                Positioned(
+                  child: _contenedorAccesoRapido(),
+                ),
+                Positioned(
+                    child: _cartaBusquedaRapida(context), top: 240, left: 10)
+              ],
+            ),
     );
   }
 

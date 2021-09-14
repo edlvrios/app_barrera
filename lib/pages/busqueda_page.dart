@@ -1,9 +1,12 @@
 //flutter
 import 'package:diseno_login/pages/credito/info_page.dart';
+import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/widgets/menu/menu_widget.dart';
 import 'package:flutter/material.dart';
 //service
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_package_manager/flutter_package_manager.dart';
 
 class BusquedaPage extends StatefulWidget {
   static final String routName = 'busqueda';
@@ -25,12 +28,122 @@ class _BusquedaPageState extends State<BusquedaPage> {
   void _searchCredito() async {
     setState(() {
       prefs.responseCode = 0;
-      print(prefs.responseCode);
       _circularProgress = true;
     });
     if (_creditoController.text.isNotEmpty) {
       prefs.credito = _creditoController.text.trim();
       Navigator.pushReplacementNamed(context, InfoPage.routeName);
+    }
+  }
+
+  @override
+  // ignore: must_call_super
+  void initState() {
+    getPackageInfo();
+  }
+
+  // ignore: missing_return
+  Future<PackageInfo> getPackageInfo() async {
+    List apps = await FlutterPackageManager.getUserInstalledPackages();
+    for (var app in apps) {
+      print(app);
+      //com.blogspot.newapphorizons.fakegps
+      //com.rosteam.gpsemulator
+      //com.incorporateapps.fakegps.fre
+      if (app == 'com.lexa.fakegps') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.lexa.fakegps';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          print(response.statusCode);
+          prefs.nameFakeApp = '';
+        }
+      } else if (app == 'com.blogspot.newapphorizons.fakegps') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.blogspot.newapphorizons.fakegps';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          print(response.statusCode);
+          prefs.nameFakeApp = '';
+        }
+      } else if (app == 'com.rosteam.gpsemulator') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.rosteam.gpsemulator';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          print(response.statusCode);
+          prefs.nameFakeApp = '';
+        }
+      } else if (app == 'com.incorporateapps.fakegps.fre') {
+        setState(() {
+          prefs.fakeGps = true;
+          prefs.nameFakeApp = 'com.incorporateapps.fakegps.fre';
+        });
+        final url = 'http://187.162.64.236:9090/dombarreraapi/api/auth/reporte';
+        final body = {
+          'usuario': '${prefs.username}',
+          'app_name': '${prefs.nameFakeApp}',
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          prefs.nameFakeApp = '';
+        }
+      } else {
+        prefs.fakeGps = false;
+      }
     }
   }
 
@@ -60,23 +173,38 @@ class _BusquedaPageState extends State<BusquedaPage> {
       ),
       drawer: MenuWidget(),
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: size.height,
-            decoration: BoxDecoration(
-              color: (prefs.colorSecundario == false)
-                  ? Colors.white
-                  : Color.fromRGBO(52, 73, 94, 1.0),
+      body: (prefs.fakeGps)
+          ? AlertDialog(
+              title: const Text('Atencion '),
+              content: const Text(
+                  'Detectamos que estas inflingiendo en las normas de trabajo de Bufete Jurídico Barrera Badillo S.C. al instalar Apps que modifican tu ubicación, se envio un reporte de monitoreo a tu supervisor'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => {
+                    Navigator.pushReplacementNamed(context, HomePage.routName)
+                  },
+                  child: const Text('Enterado'),
+                ),
+              ],
+            )
+          : Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: size.height,
+                  decoration: BoxDecoration(
+                    color: (prefs.colorSecundario == false)
+                        ? Colors.white
+                        : Color.fromRGBO(52, 73, 94, 1.0),
+                  ),
+                ),
+                Positioned(
+                  child: _contenedorAccesoRapido(),
+                ),
+                Positioned(
+                    child: _cartaBusquedaRapida(context), top: 140, left: 10)
+              ],
             ),
-          ),
-          Positioned(
-            child: _contenedorAccesoRapido(),
-          ),
-          Positioned(child: _cartaBusquedaRapida(context), top: 140, left: 10)
-        ],
-      ),
     );
   }
 

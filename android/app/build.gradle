@@ -45,10 +45,10 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.edsvntivgo.dombarrera"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.1.4"
+        versionCode 6
+        versionName "1.2.0"
     }
 
     signingConfigs {

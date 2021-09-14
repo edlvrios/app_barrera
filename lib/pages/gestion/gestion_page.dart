@@ -11,7 +11,7 @@ import 'package:diseno_login/widgets/dropdown/lista_postura_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_vivienda_widget.dart';
 //packetes de terceros
 import 'package:http/http.dart' as http;
-import 'package:badges/badges.dart';
+//import 'package:badges/badges.dart';
 
 void main() => runApp(GestionPage());
 
@@ -73,110 +73,122 @@ class _GestionPageState extends State<GestionPage> {
       }
     }
     prefs.comentario = _comentarioController.text.toUpperCase();
-    final time = DateTime.now();
-    prefs.horaFin = time.hour.toString() +
-        ":" +
-        time.minute.toString() +
-        ":" +
-        time.second.toString();
-    final url =
-        'http://187.162.64.236:9090/dombarreraapi/api/auth/guardar/gestion';
-    if (prefs.credito != 'Sin Credito Buscado') {
-      final body = {
-        'usuario': '${prefs.username}',
-        'credito': '${prefs.credito}',
-        'vivienda': '${prefs.vivienda}',
-        'atiende': '${prefs.atiende}',
-        'postura': '${prefs.postura}',
-        'conclucion': '${prefs.conclucion}',
-        'accion': '${prefs.accion}',
-        'latitud': '${prefs.latitude}',
-        'longitud': '${prefs.longitude}',
-        'hora_inicio': '${prefs.horaInicio}',
-        'hora_fin': '${prefs.horaFin}',
-        'foto': '${prefs.foto}',
-        'telefono': '${prefs.telefono}',
-        'email': '${prefs.email}',
-        'comentario': '${prefs.comentario}'
-      };
-      final response = await http.post(
-        url,
-        headers: {
-          'Accept': 'application/json',
-          'X-Request-With': 'XMLHhttpRequest',
-          'Authorization': 'Bearer ${prefs.token}'
-        },
-        body: body,
-      );
-      if (response.statusCode == 201) {
-        prefs.credito = "";
-        prefs.creditoRespaldo = "";
-        prefs.vivienda = "";
-        prefs.atiende = "";
-        prefs.postura = "";
-        prefs.conclucion = "";
-        prefs.accion = "";
-        prefs.latitude = 0.0;
-        prefs.longitude = 0.0;
-        prefs.horaInicio = "";
-        prefs.horaFin = "";
-        prefs.foto = "";
-        prefs.email = "";
-        prefs.telefono = "";
-
-        setState(() {
-          _circularProgress = false;
-        });
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            HomePage.routName, (Route<dynamic> route) => false);
-      }
+    if (prefs.vivienda == "" ||
+        prefs.atiende == "" ||
+        prefs.postura == "" ||
+        prefs.conclucion == "" ||
+        prefs.accion == "" ||
+        prefs.comentario == "") {
+      _dialog(context, "Te faltan campos por seleccionar");
+      setState(() {
+        _circularProgress = false;
+      });
     } else {
-      final body = {
-        'usuario': '${prefs.username}',
-        'credito': '${prefs.creditoRespaldo}',
-        'vivienda': '${prefs.vivienda}',
-        'atiende': '${prefs.atiende}',
-        'postura': '${prefs.postura}',
-        'conclucion': '${prefs.conclucion}',
-        'accion': '${prefs.accion}',
-        'latitud': '${prefs.latitude}',
-        'longitud': '${prefs.longitude}',
-        'hora_inicio': '${prefs.horaInicio}',
-        'hora_fin': '${prefs.horaFin}',
-        'foto': '${prefs.foto}',
-        'telefono': '${prefs.telefono}',
-        'email': '${prefs.email}',
-        'comentario': '${prefs.comentario}'
-      };
-      final response = await http.post(
-        url,
-        headers: {
-          'Accept': 'application/json',
-          'X-Request-With': 'XMLHhttpRequest',
-          'Authorization': 'Bearer ${prefs.token}'
-        },
-        body: body,
-      );
-      if (response.statusCode == 201) {
-        prefs.credito = "";
-        prefs.creditoRespaldo = "";
-        prefs.vivienda = "";
-        prefs.atiende = "";
-        prefs.postura = "";
-        prefs.conclucion = "";
-        prefs.accion = "";
-        prefs.latitude = 0.0;
-        prefs.longitude = 0.0;
-        prefs.horaInicio = "";
-        prefs.horaFin = "";
-        prefs.foto = "";
+      final time = DateTime.now();
+      prefs.horaFin = time.hour.toString() +
+          ":" +
+          time.minute.toString() +
+          ":" +
+          time.second.toString();
+      final url =
+          'http://187.162.64.236:9090/dombarreraapi/api/auth/guardar/gestion';
+      if (prefs.credito != 'Sin Credito Buscado') {
+        final body = {
+          'usuario': '${prefs.username}',
+          'credito': '${prefs.credito}',
+          'vivienda': '${prefs.vivienda}',
+          'atiende': '${prefs.atiende}',
+          'postura': '${prefs.postura}',
+          'conclucion': '${prefs.conclucion}',
+          'accion': '${prefs.accion}',
+          'latitud': '${prefs.latitude}',
+          'longitud': '${prefs.longitude}',
+          'hora_inicio': '${prefs.horaInicio}',
+          'hora_fin': '${prefs.horaFin}',
+          'foto': '${prefs.foto}',
+          'telefono': '${prefs.telefono}',
+          'email': '${prefs.email}',
+          'comentario': '${prefs.comentario}'
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          prefs.credito = "";
+          prefs.creditoRespaldo = "";
+          prefs.vivienda = "";
+          prefs.atiende = "";
+          prefs.postura = "";
+          prefs.conclucion = "";
+          prefs.accion = "";
+          prefs.latitude = 0.0;
+          prefs.longitude = 0.0;
+          prefs.horaInicio = "";
+          prefs.horaFin = "";
+          prefs.foto = "";
+          prefs.email = "";
+          prefs.telefono = "";
 
-        setState(() {
-          _circularProgress = false;
-        });
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            HomePage.routName, (Route<dynamic> route) => false);
-        //Navigator.pushAndRemoveUntil(context, Route(),(Route<dynamic> route)=>false);
+          setState(() {
+            _circularProgress = false;
+          });
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              HomePage.routName, (Route<dynamic> route) => false);
+        }
+      } else {
+        final body = {
+          'usuario': '${prefs.username}',
+          'credito': '${prefs.creditoRespaldo}',
+          'vivienda': '${prefs.vivienda}',
+          'atiende': '${prefs.atiende}',
+          'postura': '${prefs.postura}',
+          'conclucion': '${prefs.conclucion}',
+          'accion': '${prefs.accion}',
+          'latitud': '${prefs.latitude}',
+          'longitud': '${prefs.longitude}',
+          'hora_inicio': '${prefs.horaInicio}',
+          'hora_fin': '${prefs.horaFin}',
+          'foto': '${prefs.foto}',
+          'telefono': '${prefs.telefono}',
+          'email': '${prefs.email}',
+          'comentario': '${prefs.comentario}'
+        };
+        final response = await http.post(
+          url,
+          headers: {
+            'Accept': 'application/json',
+            'X-Request-With': 'XMLHhttpRequest',
+            'Authorization': 'Bearer ${prefs.token}'
+          },
+          body: body,
+        );
+        if (response.statusCode == 201) {
+          prefs.credito = "";
+          prefs.creditoRespaldo = "";
+          prefs.vivienda = "";
+          prefs.atiende = "";
+          prefs.postura = "";
+          prefs.conclucion = "";
+          prefs.accion = "";
+          prefs.latitude = 0.0;
+          prefs.longitude = 0.0;
+          prefs.horaInicio = "";
+          prefs.horaFin = "";
+          prefs.foto = "";
+
+          setState(() {
+            _circularProgress = false;
+          });
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              HomePage.routName, (Route<dynamic> route) => false);
+          //Navigator.pushAndRemoveUntil(context, Route(),(Route<dynamic> route)=>false);
+        }
       }
     }
   }
@@ -184,32 +196,21 @@ class _GestionPageState extends State<GestionPage> {
   final estiloTitulo = TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
 
   // ignore: missing_return
-  Widget _dialog(BuildContext context) {
+  Widget _dialog(BuildContext context, String mensaje) {
     showDialog(
       barrierDismissible: false,
       context: context,
+      useSafeArea: true,
       builder: (BuildContext context) {
         return AlertDialog(
           actionsOverflowButtonSpacing: 0.5,
-          title: Text("Capturaras algun Telefono o E-mail"),
+          title: Text('Atencion'),
+          content: Text(mensaje),
           actions: [
-            TextButton(
-                onPressed: () {
-                  setState(() {
-                    extraData = false;
-                  });
-                  Navigator.pop(context, false);
-                },
-                child: Text('No')),
-            TextButton(
-                onPressed: () {
-                  setState(() {
-                    extraData = true;
-                    prefs.respuestaSi = true;
-                  });
-                  Navigator.pop(context, true);
-                },
-                child: Text('Si')),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, false), // passing false
+              child: Text('Ok'),
+            ),
           ],
         );
       },
@@ -220,28 +221,6 @@ class _GestionPageState extends State<GestionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
-      floatingActionButton: (prefs.vivienda != '' &&
-              prefs.atiende != '' &&
-              prefs.postura != '' &&
-              prefs.conclucion != '' &&
-              prefs.accion != '')
-          ? Badge(
-              position: BadgePosition.topStart(start: 30, top: -10.0),
-              badgeContent: Text("1"),
-              badgeColor: Colors.lime[300],
-              child: (extraData == true)
-                  ? Text('')
-                  : (prefs.respuestaSi == true)
-                      ? Text('')
-                      : FloatingActionButton(
-                          onPressed: () {
-                            _dialog(context);
-                          },
-                          child: const Icon(Icons.mail_outline),
-                          backgroundColor: Colors.blueGrey[300],
-                        ),
-            )
-          : Text(''),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -252,10 +231,18 @@ class _GestionPageState extends State<GestionPage> {
             _listaPostura(),
             _listaConclucion(),
             _listaAccion(),
-            (prefs.respuestaSi == true && prefs.respuestaNo == false)
+            (prefs.vivienda != '' &&
+                    prefs.atiende != '' &&
+                    prefs.postura != '' &&
+                    prefs.conclucion != "" &&
+                    prefs.accion != '')
                 ? _inputTelefono(context)
                 : Text(""),
-            (prefs.respuestaSi == true && prefs.respuestaNo == false)
+            (prefs.vivienda != '' &&
+                    prefs.atiende != '' &&
+                    prefs.postura != '' &&
+                    prefs.conclucion != "" &&
+                    prefs.accion != '')
                 ? _inputEmail(context)
                 : Text(""),
             (prefs.vivienda != '' &&
@@ -368,7 +355,7 @@ class _GestionPageState extends State<GestionPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 5.0),
-          Text("Comentario de Gestion",
+          Text("Comentario de Gestion *",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,
@@ -440,7 +427,7 @@ class _GestionPageState extends State<GestionPage> {
               color: Colors.white,
             ),
             title: Text(
-              'Tipo de Vivienda',
+              'Tipo de Vivienda  *',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
@@ -495,7 +482,7 @@ class _GestionPageState extends State<GestionPage> {
               color: Colors.white,
             ),
             title: Text(
-              '¿Quien Atiende?',
+              '¿Quien Atiende?  *',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
@@ -516,16 +503,20 @@ class _GestionPageState extends State<GestionPage> {
                       fontSize: 14.0,
                     )),
             onTap: () {
-              if (prefs.atiende == '') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListaAtiende(
-                      vivienda: widget.vivienda,
+              if (prefs.vivienda == '') {
+                _dialog(context, "Te falta Seleccionar la Vivienda");
+              } else {
+                if (prefs.atiende == '') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListaAtiende(
+                        vivienda: widget.vivienda,
+                      ),
                     ),
-                  ),
-                );
-              } else {}
+                  );
+                }
+              }
             },
           ),
         )
@@ -556,7 +547,7 @@ class _GestionPageState extends State<GestionPage> {
               color: Colors.white,
             ),
             title: Text(
-              '¿Que Postura Tiene?',
+              '¿Que Postura Tiene?  *',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
@@ -577,17 +568,21 @@ class _GestionPageState extends State<GestionPage> {
                       fontSize: 14.0,
                     )),
             onTap: () {
-              if (prefs.postura == '') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListaPostura(
-                      vivienda: widget.vivienda,
-                      atiende: widget.atiende,
+              if (prefs.atiende == "") {
+                _dialog(context, "Te falta Seleccionar la Quien Atiende");
+              } else {
+                if (prefs.postura == '') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListaPostura(
+                        vivienda: widget.vivienda,
+                        atiende: widget.atiende,
+                      ),
                     ),
-                  ),
-                );
-              } else {}
+                  );
+                } else {}
+              }
             },
           ),
         )
@@ -621,7 +616,7 @@ class _GestionPageState extends State<GestionPage> {
               color: Colors.white,
             ),
             title: Text(
-              '¿Que Conclucion Obtuviste?',
+              '¿Que Conclucion Obtuviste?  *',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
@@ -642,17 +637,21 @@ class _GestionPageState extends State<GestionPage> {
                       fontSize: 14.0,
                     )),
             onTap: () {
-              if (prefs.conclucion == '') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListaConclucion(
-                      vivienda: widget.vivienda,
-                      postura: widget.postura,
+              if (prefs.postura == "") {
+                _dialog(context, "Te falta seleccionar que Que Postura");
+              } else {
+                if (prefs.conclucion == '') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListaConclucion(
+                        vivienda: widget.vivienda,
+                        postura: widget.postura,
+                      ),
                     ),
-                  ),
-                );
-              } else {}
+                  );
+                } else {}
+              }
             },
           ),
         )
@@ -683,7 +682,7 @@ class _GestionPageState extends State<GestionPage> {
               color: Colors.white,
             ),
             title: Text(
-              '¿Que Accion Se Obtuvo?',
+              '¿Que Accion Se Obtuvo?  *',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
@@ -704,18 +703,23 @@ class _GestionPageState extends State<GestionPage> {
                       fontSize: 14.0,
                     )),
             onTap: () {
-              if (prefs.accion == '') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListaAccion(
-                      vivienda: widget.vivienda,
-                      postura: widget.postura,
-                      conclucion: widget.conclucion,
+              if (prefs.conclucion == '') {
+                _dialog(
+                    context, "Te falta seleccionar que Conclucion Obtiviste");
+              } else {
+                if (prefs.accion == '') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListaAccion(
+                        vivienda: widget.vivienda,
+                        postura: widget.postura,
+                        conclucion: widget.conclucion,
+                      ),
                     ),
-                  ),
-                );
-              } else {}
+                  );
+                } else {}
+              }
             },
           ),
         )
@@ -744,6 +748,9 @@ class _GestionPageState extends State<GestionPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text('Credito Gestionado', style: estiloTitulo),
+                        Text('Los campos con * son obligatorios',
+                            style: TextStyle(
+                                fontSize: 13.0, color: Colors.red[400])),
                       ],
                     ),
                   ),

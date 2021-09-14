@@ -68,17 +68,13 @@ class _ListaViviendaState extends State<ListaVivienda> {
         appBar: AppBar(
           elevation: 0.0,
           automaticallyImplyLeading: false,
-          backgroundColor: (prefs.colorSecundario == false)
-              ? Colors.blue
-              : Color.fromRGBO(52, 73, 94, 1.0),
+          backgroundColor: Colors.blueGrey,
           title: Text(
             "Tipo de Vivienda",
             style: TextStyle(fontSize: 24.0),
           ),
         ),
-        backgroundColor: (prefs.colorSecundario == false)
-            ? Colors.blue
-            : Color.fromRGBO(52, 73, 94, 1.0),
+        backgroundColor: Colors.blueGrey,
         body: Center(
           child: FutureBuilder<List<Vivienda>>(
             future: futureVivienda,
@@ -96,9 +92,9 @@ class _ListaViviendaState extends State<ListaVivienda> {
                               top: 15.0, left: 10.0, right: 10.0),
                           child: ListTile(
                             leading:
-                                Icon(Icons.people, color: Colors.cyan[600]),
+                                Icon(Icons.people, color: Colors.blueGrey[600]),
                             trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.cyan[600]),
+                                color: Colors.blueGrey[600]),
                             title: Text(data[index].nombre,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -127,9 +123,7 @@ class _ListaViviendaState extends State<ListaVivienda> {
               return LinearProgressIndicator(
                 backgroundColor: Colors.white,
                 valueColor: AlwaysStoppedAnimation(
-                  (prefs.colorSecundario == false)
-                      ? Colors.blue
-                      : Color.fromRGBO(52, 73, 94, 1.0),
+                  Colors.lime[700],
                 ),
               );
             },
