@@ -3,6 +3,7 @@ import 'package:diseno_login/controller/findhelper.dart';
 import 'package:diseno_login/pages/ajustes_page.dart';
 import 'package:diseno_login/pages/busqueda_page.dart';
 import 'package:diseno_login/pages/login_page.dart';
+import 'package:diseno_login/pages/sincronizar_page.dart';
 import 'package:diseno_login/widgets/menu/menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,7 +65,6 @@ class _HomePageState extends State<HomePage> {
           body: body,
         );
         if (response.statusCode == 201) {
-          print(response.statusCode);
           prefs.nameFakeApp = '';
         }
       } else if (app == 'com.blogspot.newapphorizons.fakegps') {
@@ -87,7 +87,6 @@ class _HomePageState extends State<HomePage> {
           body: body,
         );
         if (response.statusCode == 201) {
-          print(response.statusCode);
           prefs.nameFakeApp = '';
         }
       } else if (app == 'com.rosteam.gpsemulator') {
@@ -110,7 +109,6 @@ class _HomePageState extends State<HomePage> {
           body: body,
         );
         if (response.statusCode == 201) {
-          print(response.statusCode);
           prefs.nameFakeApp = '';
         }
       } else if (app == 'com.incorporateapps.fakegps.fre') {
@@ -268,7 +266,10 @@ class _HomePageState extends State<HomePage> {
                       child: Icon(Icons.cached),
                       elevation: 0.0,
                       backgroundColor: Colors.yellow[800],
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, SincornizarPage.routName);
+                      },
                     ),
                   ),
                 ),

@@ -1,3 +1,5 @@
+import 'package:diseno_login/db/database.dart';
+import 'package:diseno_login/model/vivienda.dart';
 import 'package:diseno_login/pages/gestion/gestion_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -6,9 +8,12 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
+import 'package:sqflite/sqflite.dart';
+
+
 
 // ignore: missing_return
-Future<List<Vivienda>> fetchVivienda() async {
+/*Future<List<Vivienda>> fetchVivienda() async {
   final prefs = new PreferenciasUsuario();
   final url =
       'http://187.162.64.236:9090/dombarreraapi/api/auth/lista/vivienda';
@@ -17,13 +22,14 @@ Future<List<Vivienda>> fetchVivienda() async {
     'X-Request-With': 'XMLHhttpRequest',
     'Authorization': 'Bearer ${prefs.token}'
   });
-  if (response.statusCode == 201) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Vivienda.fromJson(data)).toList();
-  }
-}
 
-class Vivienda {
+  if (response.statusCode == 201) {
+    /*List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => new Vivienda.fromJson(data)).toList();*/
+  }
+}*/
+
+/*class Vivienda {
   final int id;
   final String nombre;
   // ignore: non_constant_identifier_names
@@ -43,7 +49,7 @@ class Vivienda {
       data_token: json['data_token'],
     );
   }
-}
+}*/
 
 void main() => runApp(ListaVivienda());
 
@@ -59,75 +65,77 @@ class _ListaViviendaState extends State<ListaVivienda> {
   Future<List<Vivienda>> futureVivienda;
   void initState() {
     super.initState();
-    futureVivienda = fetchVivienda();
+    //getRoute();
+    futureVivienda = DBProvider.bd.viviendas();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.blueGrey,
-          title: Text(
-            "Tipo de Vivienda",
-            style: TextStyle(fontSize: 24.0),
-          ),
-        ),
+      appBar: AppBar(
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.blueGrey,
-        body: Center(
-          child: FutureBuilder<List<Vivienda>>(
-            future: futureVivienda,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Vivienda> data = snapshot.data;
-                return ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child: Column(children: [
-                        Container(
-                          decoration: BoxDecoration(color: Colors.white),
-                          margin: EdgeInsets.only(
-                              top: 15.0, left: 10.0, right: 10.0),
-                          child: ListTile(
-                            leading:
-                                Icon(Icons.people, color: Colors.blueGrey[600]),
-                            trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.blueGrey[600]),
-                            title: Text(data[index].nombre,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w800)),
-                            onTap: () {
-                              prefs.vivienda = data[index].nombre.toString();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GestionPage(
-                                    vivienda: data[index].nombre.toString(),
-                                  ),
+        title: Text(
+          "Tipo de Vivienda",
+          style: TextStyle(fontSize: 24.0),
+        ),
+      ),
+      backgroundColor: Colors.blueGrey,
+      body: Center(
+        child: FutureBuilder<List<Vivienda>>(
+          future: futureVivienda,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Vivienda> data = snapshot.data;
+              return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: Column(children: [
+                      Container(
+                        decoration: BoxDecoration(color: Colors.white),
+                        margin:
+                            EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
+                        child: ListTile(
+                          leading:
+                              Icon(Icons.people, color: Colors.blueGrey[600]),
+                          trailing: Icon(Icons.keyboard_arrow_right,
+                              color: Colors.blueGrey[600]),
+                          title: Text(data[index].nombre,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w800)),
+                          onTap: () {
+                            prefs.vivienda = data[index].nombre.toString();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GestionPage(
+                                  vivienda: data[index].nombre.toString(),
                                 ),
-                              );
-                            },
-                          ),
-                        )
-                      ]),
-                    );
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              return LinearProgressIndicator(
-                backgroundColor: Colors.white,
-                valueColor: AlwaysStoppedAnimation(
-                  Colors.lime[700],
-                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ]),
+                  );
+                },
               );
-            },
-          ),
-        ));
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return LinearProgressIndicator(
+              backgroundColor: Colors.white,
+              valueColor: AlwaysStoppedAnimation(
+                Colors.lime[700],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

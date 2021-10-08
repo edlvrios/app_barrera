@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:diseno_login/pages/home_page.dart';
+import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
 import 'package:flutter/material.dart';
 //paketes propios
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
@@ -226,6 +227,7 @@ class _GestionPageState extends State<GestionPage> {
           children: [
             _crearImagen(context),
             _crearTitulo(),
+            PosicionWidget(),
             _listaVivienda(),
             _listaAtiende(),
             _listaPostura(),

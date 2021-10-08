@@ -40,27 +40,7 @@ class _PosicionWidgetState extends State<PosicionWidget> {
             )
           : SafeArea(
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.only(
-                    left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Tu Pocision', style: estiloTitulo),
-                        ],
-                      ),
-                    ),
-                    Icon(Icons.room, color: Colors.cyan[300], size: 45.0),
-                    Text('${prefs.latitude}',
-                        style:
-                            TextStyle(fontSize: 15.0, color: Colors.grey[700]))
-                  ],
-                ),
+                child: Text('')
               ),
             ),
     );

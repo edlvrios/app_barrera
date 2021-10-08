@@ -8,6 +8,7 @@ import 'package:diseno_login/pages/foto/foto_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/pages/lista_page.dart';
 import 'package:diseno_login/pages/gestion/gestion_page.dart';
+import 'package:diseno_login/pages/sincronizar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           InfoPage.routeName: (BuildContext context) => InfoPage(),
           CamaraPage.routName: (BuildContext context) => CamaraPage(),
           GestionPage.routName: (BuildContext context) => GestionPage(),
+          SincornizarPage.routName: (BuildContext context) => SincornizarPage()
         },
       ),
     );
@@ -95,6 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
             }
             if (prefs.ultimaPagina == 'ajustes') {
               AjustesPage();
+            }
+            if (prefs.ultimaPagina == 'sincronizar') {
+              SincornizarPage();
             }
           },
         ),

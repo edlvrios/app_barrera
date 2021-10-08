@@ -234,7 +234,56 @@ class PreferenciasUsuario {
     return _prefs.getString('nameFakeApp') ?? '';
   }
 
-  set nameFakeApp(String value){
+  set nameFakeApp(String value) {
     _prefs.setString('nameFakeApp', value);
+  }
+
+  //Sincronizacion de datos
+  get syncAsignacion {
+    return _prefs.getBool('syncAsignacion') ?? false;
+  }
+
+  set syncAsignacion(bool value) {
+    _prefs.setBool('syncAsignacion', value);
+  }
+
+  get syncVivienda {
+    return _prefs.getBool('syncVivienda') ?? false;
+  }
+
+  set syncVivienda(bool value) {
+    _prefs.setBool('syncVivienda', value);
+  }
+
+  get syncAtiende {
+    return _prefs.getBool('syncAtiende') ?? false;
+  }
+
+  set syncAtiende(bool value) {
+    _prefs.setBool('syncAtiende', value);
+  }
+
+  get syncPostura {
+    return _prefs.getBool('syncPostura') ?? false;
+  }
+
+  set syncPostura(bool value) {
+    _prefs.setBool('syncPostura', value);
+  }
+
+  get syncAccion {
+    return _prefs.getBool('syncAccion') ?? false;
+  }
+
+  set syncAccion(bool value) {
+    _prefs.setBool('syncAccion', value);
+  }
+
+  get syncConclucion {
+    return _prefs.getBool('syncConclucion') ?? false;
+  }
+
+  set syncConclucion(bool value) {
+    _prefs.setBool('syncConclucion', value);
   }
 }

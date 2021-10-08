@@ -26,6 +26,7 @@ dependencies:
     sdk: flutter
   flutter_package_manager: ^0.2.0
   shared_preferences: ^0.5.12+4
+  lite_rolling_switch: ^0.1.1
   rflutter_alert: ^2.0.4
   path_provider: ^1.6.27
   styled_widget: ^0.2.2

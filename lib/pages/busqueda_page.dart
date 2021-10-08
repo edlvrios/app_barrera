@@ -46,10 +46,6 @@ class _BusquedaPageState extends State<BusquedaPage> {
   Future<PackageInfo> getPackageInfo() async {
     List apps = await FlutterPackageManager.getUserInstalledPackages();
     for (var app in apps) {
-      print(app);
-      //com.blogspot.newapphorizons.fakegps
-      //com.rosteam.gpsemulator
-      //com.incorporateapps.fakegps.fre
       if (app == 'com.lexa.fakegps') {
         setState(() {
           prefs.fakeGps = true;
@@ -70,7 +66,6 @@ class _BusquedaPageState extends State<BusquedaPage> {
           body: body,
         );
         if (response.statusCode == 201) {
-          print(response.statusCode);
           prefs.nameFakeApp = '';
         }
       } else if (app == 'com.blogspot.newapphorizons.fakegps') {
@@ -93,7 +88,6 @@ class _BusquedaPageState extends State<BusquedaPage> {
           body: body,
         );
         if (response.statusCode == 201) {
-          print(response.statusCode);
           prefs.nameFakeApp = '';
         }
       } else if (app == 'com.rosteam.gpsemulator') {
@@ -116,7 +110,6 @@ class _BusquedaPageState extends State<BusquedaPage> {
           body: body,
         );
         if (response.statusCode == 201) {
-          print(response.statusCode);
           prefs.nameFakeApp = '';
         }
       } else if (app == 'com.incorporateapps.fakegps.fre') {
