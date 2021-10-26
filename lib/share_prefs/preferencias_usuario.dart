@@ -198,6 +198,14 @@ class PreferenciasUsuario {
     _prefs.setString('comentario', value);
   }
 
+  get contador {
+    return _prefs.getInt('contador') ?? 0;
+  }
+
+  set contador(int value) {
+    _prefs.setInt('contador', value);
+  }
+
   get respuestaSi {
     return _prefs.getBool('respuestaSi') ?? false;
   }

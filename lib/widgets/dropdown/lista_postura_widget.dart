@@ -1,51 +1,12 @@
-import 'dart:convert';
+import 'package:diseno_login/db/database.dart';
+import 'package:diseno_login/model/postura.dart';
 import 'package:flutter/material.dart';
 import 'package:diseno_login/pages/gestion/gestion_page.dart';
 import 'dart:async';
-//packetes de terceros
-import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 
-// ignore: missing_return
-Future<List<Postura>> fetchAtiende() async {
-  final prefs = new PreferenciasUsuario();
-  final url =
-      'http://187.162.64.236:9090/dombarreraapi/api/auth/lista/postura?vivienda=${prefs.vivienda}&atiende=${prefs.atiende}';
-  final response = await http.get(url, headers: {
-    'Accept': 'application/json',
-    'X-Request-With': 'XMLHhttpRequest',
-    'Authorization': 'Bearer ${prefs.token}'
-  });
-  if (response.statusCode == 201) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Postura.fromJson(data)).toList();
-  }
-}
-
-class Postura {
-  final int id;
-  final String nombre;
-  final String vivienda;
-  // ignore: non_constant_identifier_names
-  final String data_token;
-
-  Postura({
-    this.id,
-    this.nombre,
-    this.vivienda,
-    // ignore: non_constant_identifier_names
-    this.data_token,
-  });
-
-  factory Postura.fromJson(Map<String, dynamic> json) {
-    return Postura(
-        id: json['id'],
-        nombre: json['nombre'],
-        vivienda: json['vivienda'],
-        data_token: json['data_token']);
-  }
-}
+void main() => runApp(ListaPostura());
 
 class ListaPostura extends StatefulWidget {
   final String vivienda;
@@ -61,7 +22,7 @@ class _ListaPosturaState extends State<ListaPostura> {
   Future<List<Postura>> futurePostura;
   void initState() {
     super.initState();
-    futurePostura = fetchAtiende();
+    futurePostura = DBProvider.bd.findPostura(prefs.vivienda, prefs.atiende);
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
+import 'package:diseno_login/db/database.dart';
+import 'package:diseno_login/model/asignacion.dart';
 import 'package:diseno_login/pages/busqueda_page.dart';
 import 'package:diseno_login/pages/foto/foto_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
@@ -10,123 +11,13 @@ import 'package:http/http.dart' as http;
 
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
-
-// ignore: missing_return
-Future<List<InfoCredito>> fetchInfoCredito() async {
-  final prefs = new PreferenciasUsuario();
-  final url =
-      'http://187.162.64.236:9090/dombarreraapi/api/auth/credito/${prefs.credito}';
-  final response = await http.get(url, headers: {
-    'Accept': 'application/json',
-    'X-Request-With': 'XMLHhttpRequest',
-    'Authorization': 'Bearer ${prefs.token}'
-  });
-  prefs.responseCode = response.statusCode;
-  if (response.statusCode == 201) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new InfoCredito.fromJson(data)).toList();
-  } else {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new InfoCredito.fromJson(data)).toList();
-  }
-}
-
-class InfoCredito {
-  final int credito;
-  final String nombre;
-  final String calle;
-  final String colonia;
-  final String delegacion;
-  final String municipio;
-  final String cp;
-  final String saldoActual;
-  final String regimenActual;
-  final String omisos;
-  final String mensualidadSegmento;
-  final String importeRegularizar;
-  final String seguroActual;
-  final String seguroOmisos;
-  final String mesesDisponibles;
-  final String stm;
-  final String bcn;
-  final String dcp;
-  final String fpp1;
-  final String fpp2;
-  final String fpp3;
-  final String fpp4;
-  final String fpp5;
-  final String fpp6;
-  final String fpp7;
-  final String fpp8;
-  final String fpp9;
-
-  InfoCredito({
-    this.credito,
-    this.nombre,
-    this.calle,
-    this.colonia,
-    this.delegacion,
-    this.municipio,
-    this.cp,
-    this.saldoActual,
-    this.regimenActual,
-    this.omisos,
-    this.mensualidadSegmento,
-    this.importeRegularizar,
-    this.seguroActual,
-    this.seguroOmisos,
-    this.mesesDisponibles,
-    this.stm,
-    this.bcn,
-    this.dcp,
-    this.fpp1,
-    this.fpp2,
-    this.fpp3,
-    this.fpp4,
-    this.fpp5,
-    this.fpp6,
-    this.fpp7,
-    this.fpp8,
-    this.fpp9,
-  });
-
-  factory InfoCredito.fromJson(Map<String, dynamic> json) {
-    return InfoCredito(
-        credito: json['credito'],
-        nombre: json['nombre'],
-        calle: json['calle'],
-        colonia: json['colonia'],
-        delegacion: json['delegacion'],
-        municipio: json['municipio'],
-        cp: json['cp'],
-        saldoActual: json['saldoActual'],
-        regimenActual: json['regimenActual'],
-        omisos: json['omisos'],
-        mensualidadSegmento: json['mensualidadSegmento'],
-        importeRegularizar: json['importeRegularizar'],
-        seguroActual: json['seguroActual'],
-        seguroOmisos: json['seguroOmisos'],
-        mesesDisponibles: json['mesesDisponibles'],
-        fpp1: json['fpp1'],
-        fpp2: json['fpp2'],
-        fpp3: json['fpp3'],
-        fpp4: json['fpp4'],
-        fpp5: json['fpp5'],
-        fpp6: json['fpp6'],
-        fpp7: json['fpp7'],
-        fpp9: json['fpp9'],
-        stm: json['stm'],
-        bcn: json['bcn'],
-        dcp: json['dcp']);
-  }
-}
-
 void main() => runApp(InfoPage());
 
 class InfoPage extends StatefulWidget {
   static final String routeName = 'informacion';
   final String credito;
   final prefs = new PreferenciasUsuario();
+  
   InfoPage({this.credito, Key key}) : super(key: key);
   @override
   _InfoPageState createState() => _InfoPageState();
@@ -134,14 +25,13 @@ class InfoPage extends StatefulWidget {
 
 class _InfoPageState extends State<InfoPage> {
   final prefs = new PreferenciasUsuario();
-  Future<List<InfoCredito>> futureInfoCredito;
-
+  Future<List<Asignacion>>futureCredito;
   @override
   void initState() {
     getPackageInfo();
     prefs.credito = widget.credito;
     super.initState();
-    futureInfoCredito = fetchInfoCredito();
+    futureCredito=DBProvider.bd.getCredito(prefs.credito);
     final time = DateTime.now();
     prefs.horaInicio = time.hour.toString() +
         ":" +
@@ -279,12 +169,12 @@ class _InfoPageState extends State<InfoPage> {
               ],
             )
           : Center(
-              child: FutureBuilder<List<InfoCredito>>(
-                future: futureInfoCredito,
+              child: FutureBuilder<List<Asignacion>>(
+                future: futureCredito,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    List<InfoCredito> data = snapshot.data;
-                    if (data.length > 0) {
+                    List<Asignacion> data = snapshot.data;
+                    if(data.length>0){
                       return ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -707,7 +597,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].mesesDisponibles,
+                                    data[index].mesesDisponibles.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -734,7 +624,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].stm,
+                                    data[index].stm.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -763,7 +653,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].bcn,
+                                    data[index].bcn.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -821,7 +711,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].fpp1,
+                                    data[index].fpp1.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -850,7 +740,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].fpp2,
+                                    data[index].fpp2.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -879,7 +769,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].fpp3,
+                                    data[index].fpp3.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -906,7 +796,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].fpp4,
+                                    data[index].fpp4.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -933,7 +823,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].fpp5,
+                                    data[index].fpp5.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -958,7 +848,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].fpp6,
+                                    data[index].fpp6.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -987,7 +877,7 @@ class _InfoPageState extends State<InfoPage> {
                                         fontWeight: FontWeight.w800),
                                   ),
                                   subtitle: Text(
-                                    data[index].fpp7,
+                                    data[index].fpp7.toString(),
                                     style: TextStyle(
                                         color: Colors.blueGrey[600],
                                         fontSize: 16.0,
@@ -1037,7 +927,7 @@ class _InfoPageState extends State<InfoPage> {
                       );
                     }
                   } else if (snapshot.hasError) {
-                    return Text('asas');
+                    return Text('erro');
                   }
                   return LinearProgressIndicator(
                     backgroundColor: Colors.white,

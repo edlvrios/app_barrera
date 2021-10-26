@@ -108,7 +108,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                     onPressed: () {},
                   ),
                 ),
-                title: Text("Sincronizacion",
+                title: Text("Sincronizacion Listas",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20.0,

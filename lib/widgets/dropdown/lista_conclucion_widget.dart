@@ -1,54 +1,9 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:diseno_login/db/database.dart';
+import 'package:diseno_login/model/conclucion.dart';
 import 'package:diseno_login/pages/gestion/gestion_page.dart';
-import 'dart:async';
-//packetes de terceros
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
-
-// ignore: missing_return
-Future<List<Conclucion>> fetchConclucion() async {
-  final prefs = new PreferenciasUsuario();
-  final url =
-      'http://187.162.64.236:9090/dombarreraapi/api/auth/lista/conclucion?vivienda=${prefs.vivienda}&postura=${prefs.postura}';
-  final response = await http.get(url, headers: {
-    'Accept': 'application/json',
-    'X-Request-With': 'XMLHhttpRequest',
-    'Authorization': 'Bearer ${prefs.token}'
-  });
-  if (response.statusCode == 201) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Conclucion.fromJson(data)).toList();
-  }
-}
-
-class Conclucion {
-  final int id;
-  final String nombre;
-  final String postura;
-  final String vivienda;
-  // ignore: non_constant_identifier_names
-  final String data_token;
-
-  Conclucion({
-    this.id,
-    this.nombre,
-    this.postura,
-    this.vivienda,
-    // ignore: non_constant_identifier_names
-    this.data_token,
-  });
-
-  factory Conclucion.fromJson(Map<String, dynamic> json) {
-    return Conclucion(
-        id: json['id'],
-        nombre: json['nombre'],
-        postura: json['postura'],
-        vivienda: json['vivienda'],
-        data_token: json['data_token']);
-  }
-}
 
 class ListaConclucion extends StatefulWidget {
   final String vivienda;
@@ -62,9 +17,11 @@ class ListaConclucion extends StatefulWidget {
 class _ListaConclucionState extends State<ListaConclucion> {
   final prefs = new PreferenciasUsuario();
   Future<List<Conclucion>> futureConclucion;
+
   void initState() {
     super.initState();
-    futureConclucion = fetchConclucion();
+    futureConclucion =
+        DBProvider.bd.concluciones(prefs.vivienda, prefs.postura);
   }
 
   @override

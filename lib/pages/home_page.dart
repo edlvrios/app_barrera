@@ -1,13 +1,13 @@
 import 'dart:ui';
-import 'package:diseno_login/controller/findhelper.dart';
 import 'package:diseno_login/pages/ajustes_page.dart';
 import 'package:diseno_login/pages/busqueda_page.dart';
+import 'package:diseno_login/pages/carga/carga_page.dart';
 import 'package:diseno_login/pages/login_page.dart';
 import 'package:diseno_login/pages/sincronizar_page.dart';
 import 'package:diseno_login/widgets/menu/menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:diseno_login/db/database.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_package_manager/flutter_package_manager.dart';
 
@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final prefs = new PreferenciasUsuario();
   read() async {
     final prefs = new PreferenciasUsuario();
     final value = prefs.token;
@@ -34,11 +35,17 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     read();
     getPackageInfo();
+    getGestiones();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void getGestiones() async {
+    final respuesta = await DBProvider.bd.getGestiones();
+    prefs.contador = respuesta;
   }
 
   // ignore: missing_return
@@ -137,8 +144,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  FindHelper find = new FindHelper();
-  final prefs = new PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
@@ -363,27 +368,20 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 90.0, left: 25.0),
-                  child: FutureBuilder(
-                    future: find.getCreditoZona(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return Center(
-                          child: Text(
-                            snapshot.data,
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                                color: Colors.blueGrey[400],
-                                fontSize: 35.0,
-                                fontWeight: FontWeight.w800),
-                          ),
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
+                  child: Text(
+                    '${prefs.contador}',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                        color: Colors.blueGrey[400],
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.w800),
                   ),
+                ),
+                TextButton(
+                  onPressed: () => {
+                    Navigator.pushReplacementNamed(context, CargaPage.routName)
+                  },
+                  child: const Text('Cargar Gestiones'),
                 ),
               ],
             )

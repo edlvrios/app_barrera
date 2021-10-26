@@ -2,54 +2,10 @@ import 'package:diseno_login/db/database.dart';
 import 'package:diseno_login/model/vivienda.dart';
 import 'package:diseno_login/pages/gestion/gestion_page.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'dart:async';
-//packetes de terceros
-import 'package:http/http.dart' as http;
 //services
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
-import 'package:sqflite/sqflite.dart';
 
-
-
-// ignore: missing_return
-/*Future<List<Vivienda>> fetchVivienda() async {
-  final prefs = new PreferenciasUsuario();
-  final url =
-      'http://187.162.64.236:9090/dombarreraapi/api/auth/lista/vivienda';
-  final response = await http.get(url, headers: {
-    'Accept': 'application/json',
-    'X-Request-With': 'XMLHhttpRequest',
-    'Authorization': 'Bearer ${prefs.token}'
-  });
-
-  if (response.statusCode == 201) {
-    /*List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Vivienda.fromJson(data)).toList();*/
-  }
-}*/
-
-/*class Vivienda {
-  final int id;
-  final String nombre;
-  // ignore: non_constant_identifier_names
-  final String data_token;
-
-  Vivienda({
-    this.id,
-    this.nombre,
-    // ignore: non_constant_identifier_names
-    this.data_token,
-  });
-
-  factory Vivienda.fromJson(Map<String, dynamic> json) {
-    return Vivienda(
-      id: json['id'],
-      nombre: json['nombre'],
-      data_token: json['data_token'],
-    );
-  }
-}*/
 
 void main() => runApp(ListaVivienda());
 

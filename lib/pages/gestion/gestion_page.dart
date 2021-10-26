@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:diseno_login/db/database.dart';
+import 'package:diseno_login/model/gestion.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/widgets/posicion/posicion_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,6 @@ import 'package:diseno_login/widgets/dropdown/lista_atiende_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_conclucion_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_postura_widget.dart';
 import 'package:diseno_login/widgets/dropdown/lista_vivienda_widget.dart';
-//packetes de terceros
-import 'package:http/http.dart' as http;
 //import 'package:badges/badges.dart';
 
 void main() => runApp(GestionPage());
@@ -91,36 +91,24 @@ class _GestionPageState extends State<GestionPage> {
           time.minute.toString() +
           ":" +
           time.second.toString();
-      final url =
-          'http://187.162.64.236:9090/dombarreraapi/api/auth/guardar/gestion';
-      if (prefs.credito != 'Sin Credito Buscado') {
-        final body = {
-          'usuario': '${prefs.username}',
-          'credito': '${prefs.credito}',
-          'vivienda': '${prefs.vivienda}',
-          'atiende': '${prefs.atiende}',
-          'postura': '${prefs.postura}',
-          'conclucion': '${prefs.conclucion}',
-          'accion': '${prefs.accion}',
-          'latitud': '${prefs.latitude}',
-          'longitud': '${prefs.longitude}',
-          'hora_inicio': '${prefs.horaInicio}',
-          'hora_fin': '${prefs.horaFin}',
-          'foto': '${prefs.foto}',
-          'telefono': '${prefs.telefono}',
-          'email': '${prefs.email}',
-          'comentario': '${prefs.comentario}'
-        };
-        final response = await http.post(
-          url,
-          headers: {
-            'Accept': 'application/json',
-            'X-Request-With': 'XMLHhttpRequest',
-            'Authorization': 'Bearer ${prefs.token}'
-          },
-          body: body,
-        );
-        if (response.statusCode == 201) {
+      if (prefs.creditoRespaldo == 'Sin Credito Buscado') {
+        _dialog(context, "Ocurrio un Error!");
+      } else {
+        final resultado = await DBProvider.bd.newGestion(new Gestion(
+            usuario: prefs.username,
+            credito: prefs.creditoRespaldo,
+            vivienda: prefs.vivienda,
+            atiende: prefs.atiende,
+            postura: prefs.postura,
+            conclucion: prefs.conclucion,
+            accion: prefs.accion,
+            latitud: prefs.latitude.toString(),
+            longitud: prefs.longitude.toString(),
+            horaInicio: prefs.horaInicio.toString(),
+            horaFin: prefs.horaFin.toString(),
+            foto: prefs.foto,
+            comentario: prefs.comentario));
+        if (resultado >0) {
           prefs.credito = "";
           prefs.creditoRespaldo = "";
           prefs.vivienda = "";
@@ -135,60 +123,11 @@ class _GestionPageState extends State<GestionPage> {
           prefs.foto = "";
           prefs.email = "";
           prefs.telefono = "";
-
           setState(() {
             _circularProgress = false;
           });
           Navigator.of(context).pushNamedAndRemoveUntil(
               HomePage.routName, (Route<dynamic> route) => false);
-        }
-      } else {
-        final body = {
-          'usuario': '${prefs.username}',
-          'credito': '${prefs.creditoRespaldo}',
-          'vivienda': '${prefs.vivienda}',
-          'atiende': '${prefs.atiende}',
-          'postura': '${prefs.postura}',
-          'conclucion': '${prefs.conclucion}',
-          'accion': '${prefs.accion}',
-          'latitud': '${prefs.latitude}',
-          'longitud': '${prefs.longitude}',
-          'hora_inicio': '${prefs.horaInicio}',
-          'hora_fin': '${prefs.horaFin}',
-          'foto': '${prefs.foto}',
-          'telefono': '${prefs.telefono}',
-          'email': '${prefs.email}',
-          'comentario': '${prefs.comentario}'
-        };
-        final response = await http.post(
-          url,
-          headers: {
-            'Accept': 'application/json',
-            'X-Request-With': 'XMLHhttpRequest',
-            'Authorization': 'Bearer ${prefs.token}'
-          },
-          body: body,
-        );
-        if (response.statusCode == 201) {
-          prefs.credito = "";
-          prefs.creditoRespaldo = "";
-          prefs.vivienda = "";
-          prefs.atiende = "";
-          prefs.postura = "";
-          prefs.conclucion = "";
-          prefs.accion = "";
-          prefs.latitude = 0.0;
-          prefs.longitude = 0.0;
-          prefs.horaInicio = "";
-          prefs.horaFin = "";
-          prefs.foto = "";
-
-          setState(() {
-            _circularProgress = false;
-          });
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              HomePage.routName, (Route<dynamic> route) => false);
-          //Navigator.pushAndRemoveUntil(context, Route(),(Route<dynamic> route)=>false);
         }
       }
     }
