@@ -145,11 +145,23 @@ class DBProvider {
     return res;
   }
 
+  conteoAsignacionLocal() async {
+    final db = await database;
+    var res = await db.rawQuery('SELECT count(*) as total FROM asignacion;');
+    return res[0]['total'];
+  }
+
+  truncarAsignacion() async {
+    final db = await database;
+    await db.rawQuery('delete from asignacion');
+    var res = await db.rawQuery('SELECT count(*) as total FROM asignacion;');
+    return res[0]['total'];
+  }
+
   Future<List<Asignacion>> getCredito(String credito) async {
     final Database db = await database;
     final List<Map<String, dynamic>> maps = await db
         .rawQuery('SELECT * FROM asignacion WHERE credito= ?', [credito]);
-    print(maps.length);
     return List.generate(maps.length, (i) {
       return Asignacion(
           credito: maps[i]["credito"],

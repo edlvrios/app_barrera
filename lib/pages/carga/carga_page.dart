@@ -1,7 +1,10 @@
 import 'package:diseno_login/db/database.dart';
 import 'package:diseno_login/model/gestion.dart';
+import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 
 deleteGestiones(int id) async {
@@ -83,8 +86,10 @@ class _CargaPageState extends State<CargaPage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blueGrey,
         leading: IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => print('')),
+          icon: new Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () =>
+              Navigator.pushReplacementNamed(context, HomePage.routName),
+        ),
         title: Text(
           "Cargar Creditos",
           style: TextStyle(fontSize: 24.0),

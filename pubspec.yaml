@@ -26,6 +26,8 @@ dependencies:
     sdk: flutter
   flutter_package_manager: ^0.2.0
   shared_preferences: ^0.5.12+4
+  simple_connectivity: ^0.1.1
+  flutter_rounded_progress_bar: 0.2.0
   lite_rolling_switch: ^0.1.1
   rflutter_alert: ^2.0.4
   path_provider: ^1.6.27

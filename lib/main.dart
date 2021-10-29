@@ -9,6 +9,7 @@ import 'package:diseno_login/pages/foto/foto_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/pages/lista_page.dart';
 import 'package:diseno_login/pages/gestion/gestion_page.dart';
+import 'package:diseno_login/pages/sincronizar_asignacion_page.dart';
 import 'package:diseno_login/pages/sincronizar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,7 +62,9 @@ class MyApp extends StatelessWidget {
           CamaraPage.routName: (BuildContext context) => CamaraPage(),
           GestionPage.routName: (BuildContext context) => GestionPage(),
           SincornizarPage.routName: (BuildContext context) => SincornizarPage(),
-          CargaPage.routName:(BuildContext context)=>CargaPage(),
+          SincronizarAsignacionPage.routName: (BuildContext context) =>
+              SincronizarAsignacionPage(),
+          CargaPage.routName: (BuildContext context) => CargaPage(),
         },
       ),
     );
@@ -102,6 +105,9 @@ class _MyHomePageState extends State<MyHomePage> {
             }
             if (prefs.ultimaPagina == 'sincronizar') {
               SincornizarPage();
+            }
+            if (prefs.ultimaPagina == 'sincronizar_asignacion') {
+              SincronizarAsignacionPage();
             }
             if (prefs.ultimaPagina == 'carga') {
               CargaPage();

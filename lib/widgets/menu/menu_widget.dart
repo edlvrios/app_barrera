@@ -2,6 +2,8 @@ import 'package:diseno_login/pages/ajustes_page.dart';
 import 'package:diseno_login/pages/busqueda_page.dart';
 import 'package:diseno_login/pages/home_page.dart';
 import 'package:diseno_login/pages/login_page.dart';
+import 'package:diseno_login/pages/sincronizar_asignacion_page.dart';
+import 'package:diseno_login/pages/sincronizar_page.dart';
 import 'package:diseno_login/share_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +27,6 @@ class _MenuWidgetState extends State<MenuWidget> {
   @override
   Widget build(BuildContext context) {
     bool _circularProgress = false;
-    final size = MediaQuery.of(context).size;
     return Drawer(
       child: Container(
         decoration: BoxDecoration(color: Colors.blueGrey),
@@ -113,10 +114,38 @@ class _MenuWidgetState extends State<MenuWidget> {
                         color: Colors.white,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w800)),
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                      context, SincornizarPage.routName);
+                },
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0, bottom: size.height * 0.13),
+              margin: EdgeInsets.only(top: 10.0),
+              height: 80.0,
+              child: ListTile(
+                leading: FittedBox(
+                  child: FloatingActionButton(
+                    heroTag: 'btnm7',
+                    child: Icon(Icons.cached),
+                    elevation: 0.0,
+                    backgroundColor: Colors.yellow[500],
+                    onPressed: () {},
+                  ),
+                ),
+                title: Text("Sincronizacion Asignación",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w800)),
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                      context, SincronizarAsignacionPage.routName);
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10.0, bottom: 0.1),
               height: 80.0,
               child: ListTile(
                 leading: FittedBox(

@@ -294,4 +294,42 @@ class PreferenciasUsuario {
   set syncConclucion(bool value) {
     _prefs.setBool('syncConclucion', value);
   }
+
+  get totalAsignacion {
+    return _prefs.getBool('totalAsignacion') ?? false;
+  }
+
+  set totalAsignacion(bool value) {
+    _prefs.setBool('totalAsignacion', value);
+  }
+
+  get totalAsignacionLocal {
+    return _prefs.getBool('totalAsignacionLocal') ?? false;
+  }
+
+  set totalAsignacionLocal(bool value) {
+    _prefs.setBool('totalAsignacionLocal', value);
+  }
+
+  get cuentasTotales {
+    return _prefs.getString('cuentasTotales') ?? '0';
+  }
+
+  set cuentasTotales(String value) {
+    _prefs.setString('cuentasTotales', value);
+  }
+  get cuentasTotalesLocal {
+    return _prefs.getString('cuentasTotalesLocal') ?? '0';
+  }
+
+  set cuentasTotalesLocal(String value) {
+    _prefs.setString('cuentasTotalesLocal', value);
+  }
+  get esperaAsignacionLocal {
+    return _prefs.getBool('esperaAsignacionLocal') ?? false;
+  }
+
+  set esperaAsignacionLocal(bool value) {
+    _prefs.setBool('esperaAsignacionLocal', value);
+  }
 }
